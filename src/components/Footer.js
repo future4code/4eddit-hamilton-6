@@ -35,6 +35,7 @@ export default function Footer() {
 
 
 const FooterWrapper = styled.div`
+position: relative;
 display: flex;
 flex-direction: row;
 align-items: center;

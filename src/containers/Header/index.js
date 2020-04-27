@@ -13,7 +13,7 @@ class Header extends Component {
       <HeaderWrapper>
         <ImgContainer>
             <Img src={logo}
-            // onClick={this.props.goToLoginPage}
+            onClick={this.props.goToLoginPage}
             />
         </ImgContainer>
         <ButtonWrapper>
@@ -33,14 +33,22 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        goToLoginPage: () => dispatch(push(routes.root)),
+        // toLogin: (email, password) => dispatch(toLogin(email, password)),
+    }
+  }
+  
+
+  export default connect (null, mapDispatchToProps) (Header);
 
 
 const HeaderWrapper = styled.div`
 width:100%;
 min-height: 40px;
 display: flex;
-justify-content: space-between;
+justify-content: space-around;
 align-items: center;
 box-shadow: 0 0.1vw 1vw;
 background: rgb(217, 217, 217);
@@ -53,22 +61,21 @@ background: linear-gradient(
 `
 
 const ImgContainer = styled.div`
-  padding-left: 20vw;
+  height: auto;
   padding-top: 4px;
 `
 
 const Img = styled.img`
-  width: 5vw;
+  width: 100px;
   cursor: pointer;
 `
 const SignIn = styled.div`
   text-align: center;
-  font-size: 1.5vw;
+  font-size: 16px;
   color: #EC7D62;
   font-weight: 700;
   height: 70%;
   cursor: pointer;
-  margin-right: 2vw;
   `
 
 const ButtonWrapper = styled.div`
@@ -76,11 +83,10 @@ const ButtonWrapper = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 1.5vw;
   color: #EC7D62;
   font-weight: 700;
   height: 70%;
-  padding-right: 12vw;
+  width: 100px;
   cursor: pointer;
   `
 

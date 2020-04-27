@@ -4,22 +4,25 @@ import { Switch, Route } from "react-router-dom";
 import LoginPage from "../LoginPage";
 import Header from "../Header";
 import Footer from "../../components/Footer";
+import FeedPage from "../FeedPage";
 
 
 
 
-const routes = {
-  root: "/"
-  // Outras rotas aqui
+export const routes = {
+  root: "/",
+  feedPage: "/feed",
 };
 
-function Router(props) {
+export default function Router(props) {
   return (
     <Fragment>
     <Header/>
     <ConnectedRouter history={props.history}>
       <Switch>
-        <Route path={routes.root} component={LoginPage} />
+        <Route exact path={routes.root} component={LoginPage} />
+        <Route exact path={routes.feedPage} component={FeedPage} />
+        {/* <Route path={routes.root} component={LoginPage} /> */}
       </Switch>
     </ConnectedRouter>
     <Footer/>
@@ -27,5 +30,3 @@ function Router(props) {
 
   );
 }
-
-export default Router;
