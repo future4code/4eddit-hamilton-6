@@ -22,7 +22,7 @@ export const setPostDetails = (postDetails) => ({
 //FUNÇÕES ASSINCRONAS
 
 export const getAllPosts = () => async (dispatch) => {
-    const response = await axios.get('')
+    const response = await axios.get('https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts')
 
     dispatch(setAllPosts(response.data.posts))
 } 
@@ -31,11 +31,8 @@ export const getAllPosts = () => async (dispatch) => {
 
 export const createPost = (form) => async (dispatch) => {
     const formData = {
-        name: form.name,
-        date: form.date,
-        description: form.description,
-        durationInDays: form.durationInDays,
-        planet: form.planet,
+        text: form.text,
+        title: form.title,
     }
 
     const config = {
@@ -45,7 +42,7 @@ export const createPost = (form) => async (dispatch) => {
     }
 
     try {
-        await axios.post(``, formData, config)
+        await axios.post(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts`, formData, config)
 
     } catch(error) {
         window.alert("Ocorreu um erro ao criar o post.")

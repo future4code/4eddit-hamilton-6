@@ -5,13 +5,14 @@ import LoginPage from "../LoginPage";
 import Header from "../Header";
 import Footer from "../../components/Footer";
 import FeedPage from "../FeedPage";
-
+import PostDetailsPage from "../PostDetailsPage";
 
 
 
 export const routes = {
   root: "/",
   feedPage: "/feed",
+  postDetailsPage: "/details"
 };
 
 export default function Router(props) {
@@ -22,7 +23,7 @@ export default function Router(props) {
       <Switch>
         <Route exact path={routes.root} component={LoginPage} />
         <Route exact path={routes.feedPage} component={FeedPage} />
-        {/* <Route path={routes.root} component={LoginPage} /> */}
+        <Route path={routes.postDetailsPage} component={PostDetailsPage} /> 
       </Switch>
     </ConnectedRouter>
     <Footer/>

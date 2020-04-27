@@ -1,13 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { routes } from "../Router";
+import { getAllPosts, setSelectedPostId } from "../../actions/post";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import { routes } from "../Router";
 import Post from "../../components/Post";
+import Button from "@material-ui/core/Button";
 
 class FeedPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
+  componentDidMount(){
+    const token = window.localStorage.getItem("token")
+    if (token === null) {
+      this.props.goToLoginPage()
+    }
+
+    this.props.getAllPosts()
+  }
+
+  handleOnClickPost = (postId) => {
+    console.log("O post foi clicado"); //RETIRAR AO FINAL DO PROJETO
+    this.props.setSelectedPostId(postId);
+    this.props.goToPostDetailsPage();
+  }
 
   render() {
     return (
@@ -29,14 +51,30 @@ class FeedPage extends Component {
   }
 }
 
+// {this.props.allposts.map((post) => (
+//   <ContainerPostCard>
+//     <div>
+//       <span>Nome: </span><span>{post.title}</span>
+//     </div>
+//     <div>
+//       <span>Data: </span><span>{post.text}</span>
+//     </div>//     
+//     <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Comentários</Button>
+//   </ContainerPostCard>
+// ))}
+
+const mapStateToProps = state => ({
+  allPosts: state.posts.allPosts
+});
 
 const mapDispatchToProps = (dispatch) => {
     return{
-      goToLoginPage: () => dispatch(push(routes.root))
+      goToLoginPage: () => dispatch(push(routes.root)),
+      goToTPostDetailsPage: () => dispatch(push(routes.postDetails))
     }
   }
 
-export default connect (null, mapDispatchToProps) (FeedPage);
+export default connect (mapStateToProps, mapDispatchToProps) (FeedPage);
 
 
 const FeedPageWrapper = styled.div`
