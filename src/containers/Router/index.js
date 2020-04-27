@@ -12,7 +12,7 @@ import PostDetailsPage from "../PostDetailsPage";
 export const routes = {
   root: "/",
   feedPage: "/feed",
-  postDetailsPage: "/details"
+  postDetails: "/details"
 };
 
 export default function Router(props) {
@@ -23,7 +23,7 @@ export default function Router(props) {
       <Switch>
         <Route exact path={routes.root} component={LoginPage} />
         <Route exact path={routes.feedPage} component={FeedPage} />
-        <Route path={routes.postDetailsPage} component={PostDetailsPage} /> 
+        <Route exact path={routes.postDetails} component={PostDetailsPage} /> 
       </Switch>
     </ConnectedRouter>
     <Footer/>
