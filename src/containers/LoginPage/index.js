@@ -1,9 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { push } from "connected-react-router";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { routes } from "../Router";
 
 class LoginPage extends Component {
+
+
+
+
   render() {
     return (
       <LoginPageWrapper>
@@ -19,26 +26,38 @@ class LoginPage extends Component {
             // onChange={this.handleFieldChange}
             name="password"
             type="password"
-            label="Password"
+            label="Senha"
             // value={password}
           />
           <TextField
             // onChange={this.handleFieldChange}
             name="userName"
             type="userName"
-            label="userName"
+            label="Nome de Usuário"
             // value={username}
           />
-          <Button type="submit">Login</Button>
+          <Button
+          onClick={this.props.goToFeedPage}
+          >Login</Button>
           <Button type="submit">Cadastrar</Button>
         </LoginWrapper>
+        <PostListWrapper>
+          
+        </PostListWrapper>
+
       </LoginPageWrapper>
     );
   }
 }
 
-export default LoginPage;
 
+const mapDispatchToProps = (dispatch) => {
+  return{
+    goToFeedPage: () => dispatch(push(routes.feedPage))
+  }
+}
+
+export default connect (null, mapDispatchToProps) (LoginPage);
 
 const LoginPageWrapper = styled.div`
   display: flex;
@@ -55,5 +74,13 @@ const LoginWrapper = styled.form`
   gap: 10px;
   place-content: center center;
   display: grid;
+`
+
+const PostListWrapper = styled.form`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `
 
