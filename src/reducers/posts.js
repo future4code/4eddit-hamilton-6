@@ -1,7 +1,7 @@
 const initialState = {
     allPosts: [],
     selectedPostId: "",
-    PostDetails: {},
+    postDetails: {},
 }
 //RESPOSTA DA API
 // "posts": [
