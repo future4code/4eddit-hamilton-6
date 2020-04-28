@@ -21,38 +21,16 @@ export const setPostDetails = (postDetails) => ({
 //FUNÇÕES ASSINCRONAS
 
 
-export const getPostDetails = (PostId) => async (dispatch) => {
+export const getPostpDetail = (PostId) => async (dispatch) => {
     const config = {
         headers:{
-            'auth': token
+            'auth': window.localStorage.getItem("token")
         }
     }
-    try{
-        const response = await axios.get(`${baseUrl}/posts/${PostId}`, config)
-        dispatch(setPostDetails(response.data.post))
-    } catch (error) {
-        console.error(error)
-    }
 
+    const response = await axios.get(`${baseUrl}/posts/${PostId}`, config)
+
+    dispatch(setPostDetails(response.data.post))
 }
 
-export const postComment = (comment, postId) => async (dispatch) => {
-    const body = {
-        text: comment,
-    }
-
-    const config = {
-        headers: {
-            'auth': token
-        }
-    }
-
-    try {
-        await axios.post(`${baseUrl}/posts/${postId}/comment`, 
-        body, 
-        config)
-    } catch(error) {
-        console.log(body)
-        window.alert("Ocorreu um erro ao criar o comentário.")
-    }}
 
