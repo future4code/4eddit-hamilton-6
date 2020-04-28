@@ -1,80 +1,105 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { routes } from "../Router";
-import { setPostDetails } from "../../actions/post";
+import styled from "styled-components";
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Header from "../Header";
-
+import { routes } from "../Router";
 
 class PostDetailsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      createComment: false,
-      showComment: false
+      text: "",
     };
   }
 
-  componentDidMount() {
+  
+  componentDidMount(){
     const token = window.localStorage.getItem("token")
     if (token === null) {
-      this.props.goToLoginPage()
-    } else if (this.props.selectedPostId === "") {
-      this.props.goToPostList()
-    }
-
-    this.props.setPostDetails(this.props.selectedPostId)
+      console.log("token null")
+      this.props.goToLoginPage();
+    }    
   }
 
-  handleCommenty = () => {
-    
-  }
 
- 
+  handleFieldChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+
   render() {
-    const { postDetails } = this.props
+    const { text } = this.state
+    const { goToFeedPage } = this.props
+
     return (
-        <div>
-            <Header/>
-            <div>
-                <div>
-                <div>
-                    <span>Usuário: </span><span>{postDetails.name}</span>
-                </div>
-                <div>
-                    <span>Comentário: </span><span>{postDetails.text}</span>
-                </div>
-                <Button color="primary" onClick={() => this.handleCommenty(this.props.selectedPostId)}>Comentar</Button>
-                
-                { this.state.showComment && postDetails.comments.map( comment => (
-                <div>
-                    <div>
-                    <span>Usuário: </span><p>{comment.name}</p>
-                    </div>
-                    <div>
-                    <span>Comentário: </span><p>{comment.text}</p>
-                    </div>
-                </div>
-                ))}
-                </div>
-            </div>
-        </div>
+      <LoginPageWrapper>
+        <CommentWrapper>
+          <Post>
+            <h4>TESTE</h4>
+            <p>TESTE</p>
+          </Post>
+          <TextField
+            onChange={this.handleFieldChange}
+            name="text"
+            type="text"
+            label="Comentário"
+            value={text}
+            multiline
+            rowsMax={10}
+          />
+          <Button 
+            onClick={goToFeedPage}
+            >Enviar Comentário
+          </Button>
+        </CommentWrapper>
+      </LoginPageWrapper>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  selectedPostId: state.posts.selectedPostId,
-  postDetails: state.post.postDetails,
-});
 
-const mapDispatchToProps = dispatch => ({
-  goToHomePage: () => dispatch(push(routes.root)),
-  goToFeedPage: () => dispatch(push(routes.feedPage)),
-  setPostDetails: (postId) => dispatch(setPostDetails(postId)),
-})
+const mapDispatchToProps = (dispatch) => {
+  return{
+    goToFeedPage: () => dispatch(push(routes.feedPage)),
+    goToLoginPage: () => dispatch(push(routes.root)),
 
+  }
+}
 
+export default connect (null, mapDispatchToProps) (PostDetailsPage);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetailsPage);
+const LoginPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  min-height: 75vh;
+`
+
+const CommentWrapper = styled.div`
+  width: 60%;
+  height: auto;
+  min-height: 68vh;
+  min-width: 250px;
+  box-shadow: 0.1vw 0.1vw 1vw;
+  border-radius: 2vw;
+  padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  
+`
+
+const Post = styled.div`
+  width: 100%;
+  height: auto;
+  min-height: 10vw;
+  box-shadow: 0 0.3px 0.2vw;
+
+`

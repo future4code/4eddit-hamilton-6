@@ -16,6 +16,7 @@ const initialState = {
 //   ]
 
 const posts = (state = initialState, action) => {
+    console.log(action.payload)
     switch(action.type) {
         case 'SET_ALL_POSTS':
             const postList = action.payload.allPosts;
