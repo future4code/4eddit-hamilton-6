@@ -37,14 +37,16 @@ class FeedPage extends Component {
           <PostWrapper>
           <TextField
             // onChange={this.handleFieldChange}
-            name="email"
-            type="email"
+            name="text"
+            type="text"
             label="O que você está pensando?"
             // value={}
           />
           <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Postar</Button>
           </PostWrapper>
+
           <PostList>
+            <Post/>
             <Post/>
           </PostList>
       </FeedPageWrapper>
