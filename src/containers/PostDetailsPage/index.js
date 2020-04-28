@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { routes } from "../Router";
-import { getPostDetail } from "../../actions/post";
+import { setPostDetails } from "../../actions/post";
 import Button from "@material-ui/core/Button";
 import Header from "../Header";
 
@@ -24,7 +24,7 @@ class PostDetailsPage extends Component {
       this.props.goToPostList()
     }
 
-    this.props.getPostDetail(this.props.selectedPostId)
+    this.props.setPostDetails(this.props.selectedPostId)
   }
 
   handleCommenty = () => {
@@ -72,7 +72,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   goToHomePage: () => dispatch(push(routes.root)),
   goToFeedPage: () => dispatch(push(routes.feedPage)),
-  getPostDetail: (postId) => dispatch(getPostDetail(postId)),
+  setPostDetails: (postId) => dispatch(setPostDetails(postId)),
 })
 
 

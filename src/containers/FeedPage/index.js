@@ -5,7 +5,6 @@ import { routes } from "../Router";
 import { getAllPosts, setSelectedPostId } from "../../actions/post";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
-import { routes } from "../Router";
 import Post from "../../components/Post";
 import Button from "@material-ui/core/Button";
 
@@ -19,16 +18,17 @@ class FeedPage extends Component {
   componentDidMount(){
     const token = window.localStorage.getItem("token")
     if (token === null) {
-      this.props.goToLoginPage()
+      console.log("token null") //APAGAR AO FINAL DO PROJETO
+      //this.props.goToLoginPage();
     }
 
-    this.props.getAllPosts()
+    //this.props.getAllPosts();
   }
 
   handleOnClickPost = (postId) => {
     console.log("O post foi clicado"); //RETIRAR AO FINAL DO PROJETO
-    this.props.setSelectedPostId(postId);
-    this.props.goToPostDetailsPage();
+    // this.props.setSelectedPostId(postId);
+    // this.props.goToPostDetailsPage();
   }
 
   render() {
@@ -42,35 +42,36 @@ class FeedPage extends Component {
             label="O que você está pensando?"
             // value={}
           />
+          <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Postar</Button>
           </PostWrapper>
           <PostList>
-              <Post/>
+            <Post/>
           </PostList>
       </FeedPageWrapper>
     );
   }
-}
+  }
 
-// {this.props.allposts.map((post) => (
-//   <ContainerPostCard>
-//     <div>
-//       <span>Nome: </span><span>{post.title}</span>
-//     </div>
-//     <div>
-//       <span>Data: </span><span>{post.text}</span>
-//     </div>//     
-//     <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Comentários</Button>
-//   </ContainerPostCard>
-// ))}
+  // {this.props.allposts.map((post) => (
+  //   <ContainerPostCard>
+  //     <div>
+  //       <span>Nome: </span><span>{post.title}</span>
+  //     </div>
+  //     <div>
+  //       <span>Data: </span><span>{post.text}</span>
+  //     </div>//     
+  //     <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Comentários</Button>
+  //   </ContainerPostCard>
+  // ))}
 
-const mapStateToProps = state => ({
-  allPosts: state.posts.allPosts
-});
+  const mapStateToProps = state => ({
+    allPosts: state.allPosts
+  });
 
-const mapDispatchToProps = (dispatch) => {
+  const mapDispatchToProps = (dispatch) => {
     return{
       goToLoginPage: () => dispatch(push(routes.root)),
-      goToTPostDetailsPage: () => dispatch(push(routes.postDetails))
+      goToPostDetailsPage: () => dispatch(push(routes.postDetails))
     }
   }
 
