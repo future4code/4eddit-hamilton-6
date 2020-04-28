@@ -5,4 +5,10 @@ export default createMuiTheme({
     primary: {main: '#EC7D62'},
   },
 
+  props:{
+    MuiTextField: {
+      fullWidth: true,
+    }
+  }
+
 });

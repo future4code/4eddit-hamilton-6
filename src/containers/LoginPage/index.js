@@ -132,12 +132,3 @@ const Img = styled.img`
   margin: 5vw 0 4vw 0;
 `
 
-
-const PostListWrapper = styled.form`
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-`
-
