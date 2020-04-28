@@ -45,24 +45,12 @@ class FeedPage extends Component {
 
           <PostList>
             <Post/>
-            <Post/>
           </PostList>
       </FeedPageWrapper>
     );
   }
   }
 
-  // {this.props.allposts.map((post) => (
-  //   <ContainerPostCard>
-  //     <div>
-  //       <span>Nome: </span><span>{post.title}</span>
-  //     </div>
-  //     <div>
-  //       <span>Data: </span><span>{post.text}</span>
-  //     </div>//     
-  //     <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Comentários</Button>
-  //   </ContainerPostCard>
-  // ))}
 
   const mapStateToProps = state => ({
     allPosts: state.allPosts
@@ -105,4 +93,6 @@ const PostList = styled.div`
   min-width: 250px;
   height: auto;
 `
+
+
 
