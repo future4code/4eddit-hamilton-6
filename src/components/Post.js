@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { getAllPosts } from "../actions/post";
+import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -10,17 +11,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { green } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
 import UnLike from "../img/baseline_thumb_down_black_18dp.png";
 import Like from "../img/baseline_thumb_up_black_18dp.png";
-import styled from "styled-components";
 import Comment from "../img/baseline_comment_black_18dp.png";
 
 
@@ -31,17 +29,34 @@ class Post extends Component {
       
     };
   }
-
-
   
   componentDidMount(){
     const token = window.localStorage.getItem("token")
     if (token === null) {
-      //this.props.goToLoginPage()
+      this.props.goToLoginPage()
     }
 
     this.props.getAllPosts()
   }
+
+  handleOnClickPostDetails = (postId) => {
+        //this.props.setSelectedPostId(postId);
+    this.props.goToPostDetailsPage();
+  }
+
+  handleOnClickLike = (postId) => {
+    console.log("O POST FOI CURTIDO") //APAGAR NO FINAL DO PROJETO
+    //this.props.setSelectedPostId(postId);
+    //this.props.goToPostDetailsPage();
+  }
+
+  handleOnClickUnLike = (postId) => {
+    console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
+    //this.props.setSelectedPostId(postId);
+    //this.props.goToPostDetailsPage();
+  }
+
+
 
   
   render(){
@@ -73,27 +88,36 @@ class Post extends Component {
                   </IconButton>
                 }
                 title={post.username}   
-                subheader="Título do post"     
               />
-              <CardMedia
+              {/* <CardMedia
                 className={useStyles.media}
-                image={Logo}
-              />
+              >
+              <img src={Logo}/>
+              </CardMedia> */}
               <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                   {post.text}
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="Like Post">
+                <IconButton 
+                  aria-label="Like Post"
+                  onClick={this.handleOnClickLike}  
+                >
                   <img src={Like}/>
                   <Typography>{post.votesCount}</Typography> 
                 </IconButton>
-                <IconButton aria-label="UnLike Post">
+                <IconButton 
+                  aria-label="UnLike Post"
+                  onClick={this.handleOnClickUnLike}  
+                >
                   <img src={UnLike}/>
                   <Typography>{post.userVoteDirection}</Typography> 
                 </IconButton>
-                <IconButton aria-label="Comments">
+                <IconButton 
+                  aria-label="Comments"
+                  onClick={this.handleOnClickPostDetails} 
+                >
                   <img src={Comment} />
                   <Typography>{post.commentsCount}</Typography> 
                 </IconButton>
@@ -111,6 +135,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllPosts: () => dispatch(getAllPosts()),
+  goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
+  //setSelectedPostId: (post) => dispatch(setSelectedPostId(post)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post)
