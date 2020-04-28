@@ -3,6 +3,17 @@ const initialState = {
     selectedPostId: "",
     PostDetails: {},
 }
+//RESPOSTA DA API
+// "posts": [
+//     {
+//       "votesCount": 1,
+//       "userVoteDirection": 1,
+//       "commentsCount": 2,
+//       "id": "XFM8JtoESiWKqCml3Rjz",
+//       "username": "darvas",
+//       "text": "Oi gente! Bem vindos ao 4eddit :)"
+//     }
+//   ]
 
 const posts = (state = initialState, action) => {
     switch(action.type) {
