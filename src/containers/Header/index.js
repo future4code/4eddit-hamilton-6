@@ -4,30 +4,56 @@ import logo from '../../img/logo.png'
 import { push, goBack } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { routes } from '../Router'
-import Fab from '@material-ui/core/Fab';
+import { Button } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
+// const theme = createMuiTheme({
+//   overrides: {
+//     MuiButton:{
+//       text: {
+//         color: 'white',
+//         background: "#EC7D62"
+//       }
+//     }
+//   }
+// })
 
 class Header extends Component {
+
+  toLogout = () => {
+    localStorage.clear()
+    this.props.goToLoginPage()
+    window.location.reload(true)
+    }
+
   render() {
+    const isLogged = localStorage.getItem("token") !== null
+
     return (
       <HeaderWrapper>
         <ImgContainer>
-            <Img src={logo}
-            onClick={this.props.goToLoginPage}
-            />
+          <Img src={logo}
+          onClick={this.props.goToLoginPage}
+          />
         </ImgContainer>
+        {isLogged ?                 
         <ButtonWrapper>
-        <SignIn
-        // onClick={this.props.goToApplicationPage}
-        >Sign In
-        </SignIn>
-        {/* {isLogged ?                 
-        <Fab variant = "extended" size="small" color="primary" aria-label="add"
-        onClick={this.toLogout}
-        >
-        Logout
-        </Fab> : <span/>} */}
+          {/* <ThemeProvider theme={theme}> */}
+          <Button variant = "contained" color="primary"
+          onClick={this.toLogout}
+          >
+          Logout
+          </Button>
+          {/* </ThemeProvider> */}
         </ButtonWrapper>
+        :
+        <ButtonWrapper>
+          <SignUp
+          onClick={this.props.goToLoginPage}
+          >Cadastre-se
+          </SignUp>
+        </ButtonWrapper>
+        }
       </HeaderWrapper>
     );
   }
@@ -36,7 +62,6 @@ class Header extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         goToLoginPage: () => dispatch(push(routes.root)),
-        // toLogin: (email, password) => dispatch(toLogin(email, password)),
     }
   }
   
@@ -69,7 +94,7 @@ const Img = styled.img`
   width: 100px;
   cursor: pointer;
 `
-const SignIn = styled.div`
+const SignUp = styled.div`
   text-align: center;
   font-size: 16px;
   color: #EC7D62;
