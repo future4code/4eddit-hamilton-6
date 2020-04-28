@@ -23,11 +23,7 @@ class FeedPage extends Component {
     }    
   }
 
-  handleOnClickPost = (postId) => {
-    console.log("O post foi clicado"); //RETIRAR AO FINAL DO PROJETO
-    // this.props.setSelectedPostId(postId);
-    // this.props.goToPostDetailsPage();
-  }
+ 
 
   render() {
     return (
@@ -40,7 +36,7 @@ class FeedPage extends Component {
             label="O que você está pensando?"
             // value={}
           />
-          <Button color="primary" size="mediun" onClick={() => this.handleOnClickPost(Post.id)}>Postar</Button>
+          <Button color="primary" size="mediun" onClick="">Postar</Button>
           </PostWrapper>
 
           <PostList>
