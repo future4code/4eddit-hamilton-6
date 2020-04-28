@@ -20,9 +20,7 @@ class FeedPage extends Component {
     if (token === null) {
       console.log("token null") //APAGAR AO FINAL DO PROJETO
       //this.props.goToLoginPage();
-    }
-
-    //this.props.getAllPosts();
+    }    
   }
 
   handleOnClickPost = (postId) => {

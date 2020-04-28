@@ -21,10 +21,17 @@ export const setPostDetails = (postDetails) => ({
 
 //FUNÇÕES ASSINCRONAS
 
-export const getAllPosts = () => async (dispatch) => {
-    const response = await axios.get('https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts')
+export const getAllPosts = () => async (dispatch, getState) => {
+    const config = {
+        headers:{
+            'auth': window.localStorage.getItem("token")
+        }
+    }
+    
+    const response = await axios.get('https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts', config)
 
     dispatch(setAllPosts(response.data.posts))
+    console.log(response.data.posts)
 } 
 
 
