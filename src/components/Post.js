@@ -75,9 +75,11 @@ export default function Post() {
       <CardActions disableSpacing>
         <IconButton aria-label="Like Post">
           <FavoriteIcon />
+          <Typography>5 </Typography> 
         </IconButton>
         <IconButton aria-label="">
-          <ShareIcon />
+          <FavoriteIcon />
+          <Typography>3</Typography> 
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
