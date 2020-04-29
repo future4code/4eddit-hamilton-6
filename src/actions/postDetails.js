@@ -46,7 +46,6 @@ export const postComment = (comment, postId) => async (dispatch) => {
             'auth': token
         }
     }
-
     try {
         await axios.post(`${baseUrl}/posts/${postId}/comment`, 
         body, 
