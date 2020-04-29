@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { getAllPosts } from "../actions/post";
+import { getAllPosts, setSelectedPostId } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,20 +40,20 @@ class Post extends Component {
   }
 
   handleOnClickPostDetails = (postId) => {
-        //this.props.setSelectedPostId(postId);
+    this.props.setSelectedPostId(postId);
     this.props.goToPostDetailsPage();
   }
 
   handleOnClickLike = (postId) => {
     console.log("O POST FOI CURTIDO") //APAGAR NO FINAL DO PROJETO
     
-    //this.props.setSelectedPostId(postId);
+    this.props.setSelectedPostId(postId);
     
   }
 
   handleOnClickUnLike = (postId) => {
     console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
-    //this.props.setSelectedPostId(postId);
+    this.props.setSelectedPostId(postId);
     
   }
 
@@ -141,7 +141,7 @@ const mapDispatchToProps = dispatch => ({
   goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
   //increment: () => dispatch({type: 'INCREMENT'}),
   //decrement: () => dispatch({type: 'DECREMENT'}),
-  //setSelectedPostId: (post) => dispatch(setSelectedPostId(post)),
+  setSelectedPostId: (post) => dispatch(setSelectedPostId(post)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post)
