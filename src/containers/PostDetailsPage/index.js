@@ -6,9 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { routes } from "../Router";
 import {getPostDetails, postComment} from '../../actions/postDetails'
-import {getAllPosts} from '../../actions/post'
+import { getAllPosts } from "../../actions/post";
 
-const postIdStorage = "0tPTBygOm8sCxtcGVxtB" //localStorage.getItem("postId")
 
 class PostDetailsPage extends Component {
   constructor(props) {
@@ -24,39 +23,31 @@ class PostDetailsPage extends Component {
   
   componentDidMount(){
     const token = window.localStorage.getItem("token")
+    console.log(this.props.postDetails)
     if (token === null) {
-      console.log("token null")
       this.props.goToLoginPage();
     }
-    this.getPostDetails("0tPTBygOm8sCxtcGVxtB")
-    this.getAllPosts()
+    this.getPostDetails()
   }
 
 
   handleFieldChange = event => {
+
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
-  getPostDetails = (postId) => {
-    const setPostDetails = this.props.getPostDetails(postId)
-
-    this.setState({postDetails: setPostDetails})
-    console.log(this.state.postDetails)
+  getPostDetails = () => {
+    const postId = localStorage.getItem('postId')
+    this.props.getPostDetails(postId)
   }
 
-  getAllPosts = () => {
-    const setAllPosts = this.props.getAllPosts()
-
-    this.setState({posts: setAllPosts})
-    console.log(this.state.posts)
-  }
 
   toPostComment = () => {
-    const postId = "0tPTBygOm8sCxtcGVxtB"
-
-    this.props.postComment(this.state.text, postId)
+    this.props.getAllPosts()
+    console.log(this.props.postDetails.id, this.state.text)
+    this.props.postComment(this.state.text, this.props.postDetails.id)
   }
 
   render() {
@@ -68,7 +59,7 @@ class PostDetailsPage extends Component {
         <CommentWrapper>
           <Post>
             <h4>{postDetails.username}</h4>
-            <p>TESTE</p>
+            <p>{postDetails.text}</p>
           </Post>
           <TextField
             onChange={this.handleFieldChange}
@@ -85,8 +76,10 @@ class PostDetailsPage extends Component {
           </Button>
           <CommentsList>
             <h4><u>Comentários</u></h4>
-            {postDetails.comments ? postDetails.comments.reverse() .map(comment => (
-              <Comment>
+            {postDetails.comments ? postDetails.comments.map(comment => (
+              <Comment
+              key={comment.id}
+              >
                 <h4>{comment.username}</h4>
                 <p>{comment.text}</p>
               </Comment>
@@ -101,7 +94,6 @@ class PostDetailsPage extends Component {
 const mapStateToProps = state => ({
   allPosts: state.posts.allPosts,
   postDetails: state.posts.postDetails,
-  selectedPostId: state.posts.selectedPostId,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -109,8 +101,8 @@ const mapDispatchToProps = (dispatch) => {
     goToFeedPage: () => dispatch(push(routes.feedPage)),
     goToLoginPage: () => dispatch(push(routes.root)),
     getPostDetails: (postId) => dispatch(getPostDetails(postId)),
+    postComment:(comment, postId) => dispatch(postComment(comment, postId)),
     getAllPosts: () => dispatch(getAllPosts()),
-    postComment:(comment, postId) => dispatch(postComment(comment, postId))
   }
 }
 

@@ -1,7 +1,7 @@
 const initialState = {
     allPosts: [],
     selectedPostId: "",
-    PostDetails: {},
+    postDetails: {},
     like: 0,
     disLike: 0,
 }

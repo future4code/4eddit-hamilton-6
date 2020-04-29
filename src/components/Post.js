@@ -42,7 +42,9 @@ class Post extends Component {
   }
 
   handleOnClickPostDetails = (postId) => {
-    this.props.setSelectedPostId(postId);
+    console.log(postId)
+    this.props.getPostDetails(postId);
+    localStorage.setItem('postId', postId)
     this.props.goToPostDetailsPage();
   }
 
@@ -81,7 +83,7 @@ class Post extends Component {
     return(
       <div>
         {this.props.allPosts.map((post) => (
-          <Card className={useStyles.root}>
+          <Card className={useStyles.root} key={post.id}>
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
@@ -99,7 +101,7 @@ class Post extends Component {
               <img src={Logo}/>
               </CardMedia> */}
               <CardContent
-              onClick={this.handleOnClickPostDetails} 
+              onClick={ () => this.handleOnClickPostDetails(post.id)} 
               >
                 <Typography variant="body2" color="textSecondary" component="p">
                   {post.text}
@@ -132,7 +134,7 @@ class Post extends Component {
                 </IconButton>
                 <IconButton 
                   aria-label="Comments"
-                  onClick={this.handleOnClickPostDetails} 
+                  onClick={() => this.handleOnClickPostDetails(post.id)} 
                 >
                   <img src={Comment} />
                   <Typography>{post.commentsCount}</Typography> 
