@@ -46,14 +46,15 @@ class Post extends Component {
 
   handleOnClickLike = (postId) => {
     console.log("O POST FOI CURTIDO") //APAGAR NO FINAL DO PROJETO
+    
     //this.props.setSelectedPostId(postId);
-    //this.props.goToPostDetailsPage();
+    
   }
 
   handleOnClickUnLike = (postId) => {
     console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
     //this.props.setSelectedPostId(postId);
-    //this.props.goToPostDetailsPage();
+    
   }
 
 
@@ -130,12 +131,16 @@ class Post extends Component {
 }
 
 const mapStateToProps = state => ({
-  allPosts: state.posts.allPosts
+  allPosts: state.posts.allPosts,
+  //like: state.posts.like,
+  //disLike: state.posts.disLike,
 });
 
 const mapDispatchToProps = dispatch => ({
   getAllPosts: () => dispatch(getAllPosts()),
   goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
+  //increment: () => dispatch({type: 'INCREMENT'}),
+  //decrement: () => dispatch({type: 'DECREMENT'}),
   //setSelectedPostId: (post) => dispatch(setSelectedPostId(post)),
 });
 

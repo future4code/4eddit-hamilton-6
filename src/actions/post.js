@@ -18,6 +18,20 @@ export const setPostDetails = (postDetails) => ({
     }
 })
 
+export const increment = (increment) => ({
+    type: 'INCREMENT',
+    payload: {
+        increment,
+    }
+})
+
+export const decrement = (decrement) => ({
+    type: 'DECREMENT',
+    payload: {
+        decrement,
+    }
+})
+
 
 //FUNÇÕES ASSINCRONAS
 
@@ -31,7 +45,6 @@ export const getAllPosts = () => async (dispatch, getState) => {
     const response = await axios.get('https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts', config)
 
     dispatch(setAllPosts(response.data.posts))
-    console.log(response.data.posts)
 } 
 
 
@@ -58,7 +71,7 @@ export const createPost = (form) => async (dispatch) => {
 
 
 
-export const getPostpDetail = (PostId) => async (dispatch) => {
+export const getPostDetail = (PostId) => async (dispatch) => {
     const config = {
         headers:{
             'auth': window.localStorage.getItem("token")
@@ -68,6 +81,22 @@ export const getPostpDetail = (PostId) => async (dispatch) => {
     const response = await axios.get(``, config)
 
     dispatch(setPostDetails(response.data.post))
+}
+
+
+export const getPostVotes = (postId) => async (dispatch, geState) =>{
+    const config = {
+        headers:{
+            'auth': window.localStorage.getItem("token")
+        }
+    }
+
+    //PRECISO SALVAR O ID DO POST 
+
+    const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/vote`, config)
+
+    dispatch(increment(response.data))
+    console.log(response.data.direction)//APAGAR AO FINAL DO TRABALHO
 }
 
 
