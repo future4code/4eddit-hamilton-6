@@ -8,7 +8,8 @@ import { routes } from "../Router";
 import {getPostDetails, postComment} from '../../actions/postDetails'
 import {getAllPosts} from '../../actions/post'
 
-const postIdStorage = "0tPTBygOm8sCxtcGVxtB" //localStorage.getItem("postId")
+
+//FALTA APLICAR O ID DO POST ÀS FUNÇÕES
 
 class PostDetailsPage extends Component {
   constructor(props) {
