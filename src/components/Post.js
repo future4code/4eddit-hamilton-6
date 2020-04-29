@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { getAllPosts, setSelectedPostId } from "../actions/post";
+import { getPostDetails } from "../actions/postDetails";
+import { getAllPosts, setSelectedPostId, getPostVotes } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,7 +27,8 @@ class Post extends Component {
   constructor(props){
     super(props);
     this.state = {
-      
+      isLiked: true,
+      isDisliked: true,
     };
   }
   
@@ -44,18 +46,18 @@ class Post extends Component {
     this.props.goToPostDetailsPage();
   }
 
-  handleOnClickLike = (postId) => {
+  handleOnClickReaction = (reaction, postId) => {
     console.log("O POST FOI CURTIDO") //APAGAR NO FINAL DO PROJETO
     
-    this.props.setSelectedPostId(postId);
+    this.props.setSelectedPostId(reaction, postId);
     
   }
 
-  handleOnClickUnLike = (postId) => {
-    console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
-    this.props.setSelectedPostId(postId);
+  // handleOnClickReaction = (postId) => {
+  //   console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
+  //   this.props.setSelectedPostId(postId);
     
-  }
+  // }
 
 
 
@@ -74,6 +76,7 @@ class Post extends Component {
       },
     }));
 
+    const {isLiked, isDisliked} = this.state
   
     return(
       <div>
@@ -95,22 +98,34 @@ class Post extends Component {
               >
               <img src={Logo}/>
               </CardMedia> */}
-              <CardContent>
+              <CardContent
+              onClick={this.handleOnClickPostDetails} 
+              >
                 <Typography variant="body2" color="textSecondary" component="p">
                   {post.text}
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
+                {isLiked ?
                 <IconButton 
                   aria-label="Like Post"
-                  onClick={this.handleOnClickLike}  
+                  onClick={() => this.handleOnClickReaction (-1, post.id)}  
                 >
                   <img src={Like}/>
                   <Typography>{post.votesCount}</Typography> 
-                </IconButton>
+                </IconButton> //NÃO PREENCHIDO
+                :
+                <IconButton 
+                  aria-label="Like Post"
+                  onClick={() => this.handleOnClickReaction (1, post.id)}  
+                >
+                  <img src={Like}/>
+                  <Typography>{post.votesCount}</Typography> 
+                </IconButton> //PREENCHIDO
+                }
                 <IconButton 
                   aria-label="UnLike Post"
-                  onClick={this.handleOnClickUnLike}  
+                  onClick={() => this.handleOnClickReaction (-1, post.id)}  
                 >
                   <img src={UnLike}/>
                   <Typography>{post.userVoteDirection}</Typography> 
@@ -142,6 +157,8 @@ const mapDispatchToProps = dispatch => ({
   //increment: () => dispatch({type: 'INCREMENT'}),
   //decrement: () => dispatch({type: 'DECREMENT'}),
   setSelectedPostId: (post) => dispatch(setSelectedPostId(post)),
+  getPostVotes: (reaction, postId) => dispatch(getPostVotes(reaction, postId)),
+  getPostDetails: (postId) => dispatch(getPostDetails(postId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post)

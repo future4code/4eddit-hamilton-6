@@ -33,7 +33,6 @@ export const getPostDetails = (PostId) => async (dispatch) => {
     } catch (error) {
         console.error(error)
     }
-
 }
 
 

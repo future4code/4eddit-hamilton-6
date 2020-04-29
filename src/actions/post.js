@@ -91,19 +91,28 @@ export const getPostDetail = (PostId) => async (dispatch) => {
 }
 
 
-export const getPostVotes = (postId) => async (dispatch, geState) =>{
+export const getPostVotes = (reaction, postId) => async (dispatch, geState) =>{
+    
+    const body = {
+        direction: reaction
+    }
+    
     const config = {
         headers:{
             'auth': window.localStorage.getItem("token")
         }
     }
 
-    //PRECISO SALVAR O ID DO POST 
-
-    const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/vote`, config)
-
-    dispatch(increment(response.data))
-    console.log(response.data.direction)//APAGAR AO FINAL DO TRABALHO
+    try{
+        const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/vote`, 
+        config,
+        body)
+        dispatch(getPostDetail(postId))
+        console.log(response.data.direction)//APAGAR AO FINAL DO TRABALHO
+    } catch (error) {
+        console.log(body, config)
+        console.error(error)
+    }
 }
 
 

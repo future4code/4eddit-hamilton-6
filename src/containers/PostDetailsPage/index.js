@@ -100,7 +100,8 @@ class PostDetailsPage extends Component {
 
 const mapStateToProps = state => ({
   allPosts: state.posts.allPosts,
-  postDetails: state.posts.postDetails
+  postDetails: state.posts.postDetails,
+  selectedPostId: state.posts.selectedPostId,
 });
 
 const mapDispatchToProps = (dispatch) => {
