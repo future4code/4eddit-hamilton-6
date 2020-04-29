@@ -11,6 +11,13 @@ export const setAllPosts = (allPosts) => ({
     }
 })
 
+export const setSelectedPostId = (selectedPostId) => ({
+    type: 'SET_SELECTED_POST',
+    payload: {
+        selectedPostId,
+    }
+})
+
 export const setPostDetails = (postDetails) => ({
     type: 'SET_POST_DETAILS',
     payload: {
