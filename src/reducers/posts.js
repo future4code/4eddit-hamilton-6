@@ -2,6 +2,8 @@ const initialState = {
     allPosts: [],
     selectedPostId: "",
     PostDetails: {},
+    like: 0,
+    disLike: 0,
 }
 //RESPOSTA DA API
 // "posts": [
@@ -23,7 +25,7 @@ const posts = (state = initialState, action) => {
             return {...state, allPosts: postList};
         case 'SET_POST_DETAILS':
             const postDetails = action.payload.postDetails;
-            return {...state, postDetails: postDetails}
+            return {...state, postDetails: postDetails};
         default:
             return state;
     }
