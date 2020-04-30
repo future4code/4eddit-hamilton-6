@@ -79,27 +79,22 @@ export const getPostDetail = (postId) => async (dispatch) => {
 }
 
 
-export const getPostVotes = ( direction, postId) => async (dispatch, geState) =>{
+export const getPostVotes = ( postId, direction) => async (dispatch, geState) =>{
+    const token = window.localStorage.getItem("token");
+    const idVote = postId;
+    const data = { direction:  direction };
+    console.log("postId vote: ", idVote);
     
-    const body = {
-        direction:  direction
-    }
-    
-    const config = {
-        headers:{
-            'auth': window.localStorage.getItem("token")
-        }
-    }
-
     try{
-        const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/vote`, 
-        config,
-        body)
-        dispatch(getAllPosts())
-        console.log(response)
-    } catch (error) {
-        console.log("erro ao curtir o post")
+        const response = await axios.get(
+            `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${idVote}/vote`, 
+        data,{ headers: { auth: token,}}
+        );
         
+        dispatch(getAllPosts());
+        
+    } catch (error) {
+        console.log("erro ao curtir o post")        
     }
 }
 

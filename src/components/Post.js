@@ -18,9 +18,14 @@ import Typography from '@material-ui/core/Typography';
 import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
+//ICONES DO LOGO
 import UnLike from "../img/outline_thumb_down_black_18dp.png";
 import Like from "../img/outline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
+import UpVote from "@material-ui/icons/ThumbUp";
+import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
+import DownVote from "@material-ui/icons/ThumbDown";
+import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
 
 
 class Post extends Component {
@@ -53,9 +58,17 @@ class Post extends Component {
     this.setState({ isLiked: !this.state.isLiked})
     this.props.getPostDetails(postId);
     localStorage.setItem('postId', postId)
-
-    
+   
   }
+
+  clickVote = (post,direction) => {
+    if(post.userVoteDirection === direction) {
+      this.props.getPostVote(post, 0);
+    } else {
+    this.props.getPostVote(post, direction);
+    console.log(post.id)
+  }}
+
   
   render(){
     const useStyles = makeStyles((theme) => ({
@@ -107,20 +120,31 @@ class Post extends Component {
               </CardContent>
 
 
-              <CardActions disableSpacing>
-                
-                <IconButton 
-                  aria-label="DisLiked Post"
-                  onClick={() => this.handleOnClickReaction (post.id)}  
-                >
-                  <img src={Like}/>
-                </IconButton>                 
-                <IconButton 
-                  aria-label="Liked Post"
-                  onClick={() => this.handleOnClickReaction (post.id)}  
-                >
-                  <img src={UnLike}/>                              
-                </IconButton>
+              <CardActions disableSpacing>                
+                  
+                    <IconButton 
+                      aria-label="DisLiked Post"                    
+                      onClickDownVote = {() => this.clickVote(post.id,-1)}
+                      DownVote={
+                        post.userVoteDirection < 0 ? (
+                          <DownVote />
+                        ) : (
+                          <DownVoteOutlined />
+                        )
+                      }
+                    >
+                      <UpVote/>                   
+                    </IconButton>                  
+                    <IconButton 
+                      aria-label="Liked Post"
+                      onClickUpVote = {() => this.clickVote(post.id,1)}
+                      upVote={
+                        post.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />
+                      }
+                    >
+                      <DownVote/>                                                     
+                    </IconButton>
+                    
                 <Typography>{post.votesCount}</Typography> 
                 <Typography>Likes</Typography>
                 <IconButton 
