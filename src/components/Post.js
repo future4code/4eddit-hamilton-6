@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { getPostDetails } from "../actions/postDetails";
-import { getAllPosts, setSelectedPostId, getPostVotes } from "../actions/post";
+import { getAllPosts, getPostVotes } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,8 +18,8 @@ import Typography from '@material-ui/core/Typography';
 import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
-import UnLike from "../img/outline_thumb_up_black_18dp.png";
-import Like from "../img/baseline_thumb_up_black_18dp.png";
+import UnLike from "../img/outline_thumb_down_black_18dp.png";
+import Like from "../img/outline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
 
 
@@ -27,7 +27,7 @@ class Post extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isLiked: true,
+      
      
     };
   }
@@ -48,11 +48,13 @@ class Post extends Component {
     this.props.goToPostDetailsPage();
   }
 
-  handleOnClickReaction = (reaction, postId) => {
-    console.log("O POST FOI CURTIDO") //APAGAR NO FINAL DO PROJETO
-    
-    this.props.setSelectedPostId(reaction, postId);
+  handleOnClickReaction = (postId) => {
+    console.log("ID DO POST: ", postId) //APAGAR NO FINAL DO PROJETO
     this.setState({ isLiked: !this.state.isLiked})
+    this.props.getPostDetails(postId);
+    localStorage.setItem('postId', postId)
+
+    
   }
   
   render(){
@@ -70,8 +72,7 @@ class Post extends Component {
       },
     }));
 
-    const {isLiked} = this.state
-  
+      
     return(
       <div>
         {this.props.allPosts.map((post) => (
@@ -107,30 +108,29 @@ class Post extends Component {
 
 
               <CardActions disableSpacing>
-                {isLiked ?
+                
                 <IconButton 
                   aria-label="DisLiked Post"
-                  onClick={() => this.handleOnClickReaction (-1, post.id)}  
-                >
-                  <img src={UnLike}/>
-                  <Typography>{post.votesCount}</Typography> 
-                </IconButton> //NÃO PREENCHIDO
-                :
-                <IconButton 
-                  aria-label="Liked Post"
-                  onClick={() => this.handleOnClickReaction (1, post.id)}  
+                  onClick={() => this.handleOnClickReaction (post.id)}  
                 >
                   <img src={Like}/>
-                  <Typography>{post.votesCount}</Typography> 
-                </IconButton> //PREENCHIDO
-                }
+                </IconButton>                 
+                <IconButton 
+                  aria-label="Liked Post"
+                  onClick={() => this.handleOnClickReaction (post.id)}  
+                >
+                  <img src={UnLike}/>                              
+                </IconButton>
+                <Typography>{post.votesCount}</Typography> 
+                <Typography>Likes</Typography>
                 <IconButton 
                   aria-label="Comments"
                   onClick={() => this.handleOnClickPostDetails(post.id)} 
                 >
-                  <img src={Comment} />
-                  <Typography>{post.commentsCount}</Typography> 
+                  <img src={Comment} />                   
                 </IconButton>
+                <Typography>{post.commentsCount}</Typography>
+                <Typography>Comentários</Typography>
               </CardActions>
 
 
@@ -142,18 +142,13 @@ class Post extends Component {
 }
 
 const mapStateToProps = state => ({
-  allPosts: state.posts.allPosts,
-  //like: state.posts.like,
-  //disLike: state.posts.disLike,
+  allPosts: state.posts.allPosts,  
 });
 
 const mapDispatchToProps = dispatch => ({
   getAllPosts: () => dispatch(getAllPosts()),
   goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
-  //increment: () => dispatch({type: 'INCREMENT'}),
-  //decrement: () => dispatch({type: 'DECREMENT'}),
-  setSelectedPostId: (post) => dispatch(setSelectedPostId(post)),
-  getPostVotes: (reaction, postId) => dispatch(getPostVotes(reaction, postId)),
+  getPostVotes: ( postId, direction) => dispatch(getPostVotes(postId, direction)),
   getPostDetails: (postId) => dispatch(getPostDetails(postId)),
 });
 

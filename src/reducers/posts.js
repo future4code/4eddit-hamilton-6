@@ -26,9 +26,7 @@ const posts = (state = initialState, action) => {
         case 'SET_POST_DETAILS':
             const postDetails = action.payload.postDetails;
             return {...state, postDetails: postDetails};
-        case 'SET_SELECTED_POST':
-            const postId = action.payload.selectedPostId;
-            return {...state, selectedPostId: postId};
+        
         default:
             return state;
     }

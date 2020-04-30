@@ -21,14 +21,14 @@ export const setPostDetails = (postDetails) => ({
 //FUNÇÕES ASSINCRONAS
 
 
-export const getPostDetails = (PostId) => async (dispatch) => {
+export const getPostDetails = (postId) => async (dispatch) => {
     const config = {
         headers:{
             'auth': token
         }
     }
     try{
-        const response = await axios.get(`${baseUrl}/posts/${PostId}`, config)
+        const response = await axios.get(`${baseUrl}/posts/${postId}`, config)
         dispatch(setPostDetails(response.data.post))
     } catch (error) {
         console.error(error)

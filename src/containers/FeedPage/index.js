@@ -28,8 +28,9 @@ class FeedPage extends Component {
     });
   };
  
-  handleCreatePost = () => {
-    this.props.createPost(this.state);
+  handleOnClickCreatePost = () => {
+    const {title,text} = this.state;
+    this.props.createPost(title,text);
     this.setState({text: ""});
     this.setState({title: ""});
     
@@ -43,7 +44,7 @@ class FeedPage extends Component {
           <PostWrapper>
             <TextField
               onChange={this.handleFieldChange}
-              name="newTitleText"
+              name="title"
               type="text"
               label="Título"
               value={title}
@@ -52,14 +53,14 @@ class FeedPage extends Component {
             />
             <TextField
               onChange={this.handleFieldChange}
-              name="newPostText"
+              name="text"
               type="text"
               label="O que você está pensando?"
               value={text}
               multiline
               rowsMax={10}
             />
-            <Button color="primary" size="mediun" onClick={this.handleCreatePost}>Postar</Button>
+            <Button color="primary" size="mediun" onClick={this.handleOnClickCreatePost}>Postar</Button>
           </PostWrapper>
 
           <PostList>
@@ -81,6 +82,7 @@ class FeedPage extends Component {
       goToLoginPage: () => dispatch(push(routes.root)),
       goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
       createPost: (text,title) => dispatch(createPost(text,title)),
+      
     }
   }
 

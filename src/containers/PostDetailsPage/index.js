@@ -89,7 +89,7 @@ class PostDetailsPage extends Component {
           // Name of the rule
           margin: {
             // Some CSS
-            margin: "30px",
+           margin: "30px",
           },
         },
       },
