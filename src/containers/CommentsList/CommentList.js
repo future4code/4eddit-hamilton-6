@@ -77,7 +77,7 @@ class CommentsList extends Component {
         MuiCard: {
           root: {
             margin: "2vw",
-            boxShadow: "0.1vw -0.1vw 0.1vw",
+            boxShadow: "0.1vw -0.1vw 0.5vw",
           },
         },
       },
