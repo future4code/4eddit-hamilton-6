@@ -5,7 +5,7 @@ import { getPostDetails } from "../actions/postDetails";
 import { getAllPosts, setSelectedPostId, getPostVotes } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -56,19 +56,30 @@ class Post extends Component {
   }
   
   render(){
-    const useStyles = makeStyles((theme) => ({
-      root: {
-        maxWidth: 345,
-        margin: 30,
+    // const useStyles = makeStyles((theme) => ({
+    //   root: {
+    //     maxWidth: 345,
+    //     margin: 200,
+    //   },
+    //   media: {
+    //     height: 0,
+    //     paddingTop: '56.25%', // 16:9
+    //   },
+    //   avatar: {
+    //     backgroundColor: green[500],
+    //   },
+    // }));
+
+    const theme = createMuiTheme({
+      overrides: {
+        MuiCard: {
+          root: {
+            margin: "2vw 0",
+            boxShadow: "0.1vw -0.1vw 0.5vw",
+          },
+        },
       },
-      media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-      },
-      avatar: {
-        backgroundColor: green[500],
-      },
-    }));
+    });
 
     const {isLiked} = this.state
   
@@ -77,11 +88,13 @@ class Post extends Component {
         {this.props.allPosts
         .sort((a, b) => b.votesCount - a.votesCount)
         .map((post) => (
-          <Card className={useStyles.root} key={post.id}>
+          <ThemeProvider theme={theme}>         
+          <Card
+          key={post.id}>
 
               <CardHeader
                 avatar={
-                  <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
+                <Avatar aria-label="recipe"></Avatar>
                 }
                 action={
                   <IconButton aria-label="settings">
@@ -91,13 +104,11 @@ class Post extends Component {
                 title={post.username}   
               />
 
-
               {/* <CardMedia
                 className={useStyles.media}
               >
               <img src={Logo}/>
               </CardMedia> */}
-
 
               <CardContent 
               onClick={ () => this.handleOnClickPostDetails(post.id)} 
@@ -106,7 +117,6 @@ class Post extends Component {
                   {post.text}
                 </Typography>
               </CardContent>
-
 
               <CardActions disableSpacing>
                 {isLiked ?
@@ -134,9 +144,8 @@ class Post extends Component {
                   <Typography>{post.commentsCount}</Typography> 
                 </IconButton>
               </CardActions>
-
-
             </Card>
+            </ThemeProvider>
         ))}
       </div>
     );

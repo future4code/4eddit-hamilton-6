@@ -70,7 +70,8 @@ export const createPost = (text, title) => async (dispatch) => {
 
     try {
         await axios.post(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts`, 
-        body, config)
+        body, 
+        config)
         dispatch(getAllPosts());
         console.log("RESPONSE ", body)
     } catch(error) {
