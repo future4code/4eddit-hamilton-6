@@ -13,8 +13,8 @@ class FeedPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      text: '',
+      text: "",
+      title: "",
     };
   }
 
@@ -30,14 +30,14 @@ class FeedPage extends Component {
   };
  
   handleCreatePost = () => {
-    this.props.createPost(this.state);
+    this.props.createPost(this.state.text, this.state.text);
     this.setState({text: ""});
     this.setState({title: ""});
     
   }
 
   render() {
-    const { title , text} = this.state
+    const { text } = this.state
 
     const theme = createMuiTheme({
       overrides: {
@@ -67,7 +67,7 @@ class FeedPage extends Component {
             <ThemeProvider theme={theme}>
             <TextField
               onChange={this.handleFieldChange}
-              name="newPostText"
+              name="text"
               type="text"
               label="O que você está pensando?"
               value={text}
@@ -75,7 +75,12 @@ class FeedPage extends Component {
               rowsMax={10}
             />
             </ThemeProvider>
-            <Button color="primary" size="mediun" onClick={this.handleCreatePost}>Postar</Button>
+            <Button 
+            color="primary" 
+            size="medium" 
+            onClick={this.handleCreatePost}
+            >Postar
+            </Button>
           </PostWrapper>
 
           <PostList>
