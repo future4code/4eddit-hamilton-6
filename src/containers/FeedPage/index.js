@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { routes } from "../Router";
-import { getAllPosts, setSelectedPostId } from "../../actions/post";
+import { createPost } from "../../actions/post";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Post from "../../components/Post";
@@ -12,36 +12,60 @@ class FeedPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: '',
+      text: '',
     };
   }
 
   componentDidMount(){
     const token = window.localStorage.getItem("token")
-    if (token === null) {
-      console.log("token null") //APAGAR AO FINAL DO PROJETO
-      //this.props.goToLoginPage();
-    }    
   }
 
+  
+  handleFieldChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
  
+  handleCreatePost = () => {
+    this.props.createPost(this.state);
+    this.setState({text: ""});
+    this.setState({title: ""});
+    
+  }
 
   render() {
+    const { title , text} = this.state
+    
     return (
       <FeedPageWrapper>
           <PostWrapper>
-          <TextField
-            // onChange={this.handleFieldChange}
-            name="text"
-            type="text"
-            label="O que você está pensando?"
-            // value={}
-          />
-          <Button color="primary" size="mediun" onClick="">Postar</Button>
+            <TextField
+              onChange={this.handleFieldChange}
+              name="newTitleText"
+              type="text"
+              label="Título"
+              value={title}
+              multiline
+              rowsMax={2}
+            />
+            <TextField
+              onChange={this.handleFieldChange}
+              name="newPostText"
+              type="text"
+              label="O que você está pensando?"
+              value={text}
+              multiline
+              rowsMax={10}
+            />
+            <Button color="primary" size="mediun" onClick={this.handleCreatePost}>Postar</Button>
           </PostWrapper>
 
           <PostList>
             <Post/>
           </PostList>
+
       </FeedPageWrapper>
     );
   }
@@ -55,7 +79,8 @@ class FeedPage extends Component {
   const mapDispatchToProps = (dispatch) => {
     return{
       goToLoginPage: () => dispatch(push(routes.root)),
-      goToPostDetailsPage: () => dispatch(push(routes.postDetails))
+      goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
+      createPost: (text,title) => dispatch(createPost(text,title)),
     }
   }
 

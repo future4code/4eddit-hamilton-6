@@ -54,15 +54,6 @@ class Post extends Component {
     this.props.setSelectedPostId(reaction, postId);
     this.setState({ isLiked: !this.state.isLiked})
   }
-
-  // handleOnClickReaction = (postId) => {
-  //   console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
-  //   this.props.setSelectedPostId(postId);
-    
-  // }
-
-
-
   
   render(){
     const useStyles = makeStyles((theme) => ({
@@ -78,7 +69,7 @@ class Post extends Component {
       },
     }));
 
-    const {isLiked, isDisliked} = this.state
+    const {isLiked} = this.state
   
     return(
       <div>

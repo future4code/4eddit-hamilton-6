@@ -7,6 +7,21 @@ import Button from "@material-ui/core/Button";
 import { routes } from "../Router";
 import {getPostDetails, postComment} from '../../actions/postDetails'
 import { getAllPosts } from "../../actions/post";
+import Logo from "../../img/logo.png";
+//COMPONENTES DA ESTILIZAÇÂO DO CARD
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { green } from '@material-ui/core/colors';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import UnLike from "../../img/outline_thumb_up_black_18dp.png";
+import Like from "../../img/baseline_thumb_up_black_18dp.png";
+
 
 
 class PostDetailsPage extends Component {
@@ -15,7 +30,8 @@ class PostDetailsPage extends Component {
     this.state = {
       text: "",
       posts: [],
-      postDetails:{}
+      postDetails:{},
+      isLiked: true,
     };
   }
 
@@ -50,17 +66,52 @@ class PostDetailsPage extends Component {
     this.props.postComment(this.state.text, this.props.postDetails.id)
   }
 
+  handleOnClickReaction = () => {
+        
+    //this.props.setSelectedPostId(reaction, postId);
+    this.setState({ isLiked: !this.state.isLiked})
+  }
+
+
   render() {
+    const useStyles = makeStyles((theme) => ({
+      root: {
+        maxWidth: 345,
+      },      
+      avatar: {
+        backgroundColor: green[500],
+      },
+    }));
+
+    const {isLiked} = this.state
     const { text } = this.state
     const { postDetails } = this.props
 
     return (
       <LoginPageWrapper>
         <CommentWrapper>
-          <Post>
-            <h4>{postDetails.username}</h4>
-            <p>{postDetails.text}</p>
-          </Post>
+          
+            <Card className={useStyles.root} key={postDetails.id}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
+                }
+                action={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={postDetails.username}  
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                {postDetails.text} 
+                </Typography>
+              </CardContent>              
+            </Card>
+          
+
+
           <TextField
             onChange={this.handleFieldChange}
             name="text"
@@ -74,16 +125,48 @@ class PostDetailsPage extends Component {
             onClick={this.toPostComment}
           >Enviar Comentário
           </Button>
+
+
           <CommentsList>
-            <h4><u>Comentários</u></h4>
-            {postDetails.comments ? postDetails.comments.map(comment => (
-              <Comment
-              key={comment.id}
-              >
-                <h4>{comment.username}</h4>
-                <p>{comment.text}</p>
-              </Comment>
-            )) : <span>Carregando...</span>}
+            {postDetails.comments ? postDetails.comments.map(comment =>(
+              <Card className={useStyles.root} key={comment.id}>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
+                    }
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={comment.username}   
+                  />
+                  <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                    {comment.text} 
+                    </Typography>
+                  </CardContent>
+                  <CardActions disableSpacing >
+                    {isLiked ?
+                      <IconButton 
+                        aria-label="DisLiked"
+                        onClick={this.handleOnClickReaction}  
+                      >
+                        <img src={UnLike}/>
+                        <Typography>(numero de curtidas)</Typography> 
+                      </IconButton>
+                      :
+                      <IconButton 
+                        aria-label="Liked"
+                        onClick={this.handleOnClickReaction}
+                      >
+                        <img src={Like}/>
+                        <Typography>(numero de curtidas)</Typography>  
+                      </IconButton> 
+                    }                  
+                  </CardActions>
+                </Card>
+                )) : <span>Carregando...</span>}
           </CommentsList>
         </CommentWrapper>
       </LoginPageWrapper>
@@ -153,15 +236,15 @@ const CommentsList = styled.div`
   padding: 3vw;
 `
 
-const Comment = styled.div`
+ const Comment = styled.div`
   width: 100%;
-  height: auto;
-  min-height: 2vw;
-  padding: 1vw 1vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  border: 1px black solid;
-  border-radius: 1vw;
-  margin-bottom: 1vw;
+   height: auto;
+   min-height: 2vw;
+   padding: 1vw 1vw;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+   border: 1px black solid;
+   border-radius: 1vw;
+   margin-bottom: 1vw;
 `
