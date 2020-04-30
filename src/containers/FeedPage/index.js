@@ -44,9 +44,10 @@ class FeedPage extends Component {
         MuiTextField: {
           root: {
             margin: "2vw 0 1vw 0",
-            padding: '1vw',
+            padding: '2vw 1vw',
             boxShadow: "0.1vw 0.1vw 0.5vw",
             color: '#F4A384',
+            borderRadius: '4px',
           },
         },
       },
@@ -55,15 +56,6 @@ class FeedPage extends Component {
     return (
       <FeedPageWrapper>
           <PostWrapper>
-            {/* <TextField
-              onChange={this.handleFieldChange}
-              name="newTitleText"
-              type="text"
-              label="Título"
-              value={title}
-              multiline
-              rowsMax={2}
-            /> */}
             <ThemeProvider theme={theme}>
             <TextField
               onChange={this.handleFieldChange}
@@ -76,7 +68,7 @@ class FeedPage extends Component {
             />
             </ThemeProvider>
             <Button 
-            color="primary" 
+            color="secondary" 
             size="medium" 
             onClick={this.handleCreatePost}
             >Postar

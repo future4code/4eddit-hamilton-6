@@ -2,8 +2,6 @@ import React from "react";
 import styled from 'styled-components'
 import Phone from '@material-ui/icons/PhoneInTalkOutlined'
 
-
-
 export default function Footer() {
   return (
       <FooterWrapper>
@@ -32,7 +30,6 @@ export default function Footer() {
       </FooterWrapper>
   );
 }
-
 
 const FooterWrapper = styled.div`
 position: relative;
