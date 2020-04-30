@@ -6,17 +6,8 @@ import { connect } from 'react-redux'
 import { routes } from '../Router'
 import { Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { green, purple } from '@material-ui/core/colors';
 
-// const theme = createMuiTheme({
-//   overrides: {
-//     MuiButton:{
-//       text: {
-//         color: 'white',
-//         background: "#EC7D62"
-//       }
-//     }
-//   }
-// })
 
 class Header extends Component {
 
@@ -29,6 +20,28 @@ class Header extends Component {
   render() {
     const isLogged = localStorage.getItem("token") !== null
 
+    const theme = createMuiTheme({
+      overrides: {
+        MuiButton: {
+          text: {
+            background: '#ed7f61',
+            borderRadius: 3,
+            border: 0,
+            color: 'white',
+            height: "45px",
+            padding: '0 30px',
+            fontWeight: 900,
+            '&:hover': {
+              backgroundColor: "#F4A384",
+              borderColor: '#0062cc',
+              boxShadow: 'none',
+            },
+          },
+        },
+      },
+    });
+    
+
     return (
       <HeaderWrapper>
         <ImgContainer>
@@ -38,13 +51,13 @@ class Header extends Component {
         </ImgContainer>
         {isLogged ?                 
         <ButtonWrapper>
-          {/* <ThemeProvider theme={theme}> */}
-          <Button variant = "contained" color="primary"
-          onClick={this.toLogout}
-          >
-          Logout
-          </Button>
-          {/* </ThemeProvider> */}
+          <ThemeProvider theme={theme}>
+            <Button
+            onClick={this.toLogout}
+            >
+            Logout
+            </Button>
+          </ThemeProvider>
         </ButtonWrapper>
         :
         <ButtonWrapper>
@@ -93,6 +106,9 @@ const ImgContainer = styled.div`
 const Img = styled.img`
   width: 100px;
   cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `
 const SignUp = styled.div`
   text-align: center;
