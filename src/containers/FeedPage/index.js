@@ -7,13 +7,14 @@ import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Post from "../../components/Post";
 import Button from "@material-ui/core/Button";
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 
 class FeedPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      text: '',
+      text: "",
+      title: "",
     };
   }
 
@@ -28,29 +29,35 @@ class FeedPage extends Component {
     });
   };
  
-  handleOnClickCreatePost = () => {
-    const {title,text} = this.state;
-    this.props.createPost(title,text);
+
+  handleCreatePost = () => {
+    this.props.createPost(this.state.text, this.state.text);
     this.setState({text: ""});
     this.setState({title: ""});
     
   }
 
   render() {
-    const { title , text} = this.state
+    const { text } = this.state
+
+    const theme = createMuiTheme({
+      overrides: {
+        MuiTextField: {
+          root: {
+            margin: "2vw 0 1vw 0",
+            padding: '2vw 1vw',
+            boxShadow: "0.1vw 0.1vw 0.5vw",
+            color: '#F4A384',
+            borderRadius: '4px',
+          },
+        },
+      },
+    });
     
     return (
       <FeedPageWrapper>
           <PostWrapper>
-            <TextField
-              onChange={this.handleFieldChange}
-              name="title"
-              type="text"
-              label="Título"
-              value={title}
-              multiline
-              rowsMax={2}
-            />
+            <ThemeProvider theme={theme}>
             <TextField
               onChange={this.handleFieldChange}
               name="text"
@@ -60,7 +67,14 @@ class FeedPage extends Component {
               multiline
               rowsMax={10}
             />
-            <Button color="primary" size="mediun" onClick={this.handleOnClickCreatePost}>Postar</Button>
+
+            </ThemeProvider>
+            <Button 
+            color="secondary" 
+            size="medium" 
+            onClick={this.handleCreatePost}
+            >Postar
+            </Button>
           </PostWrapper>
 
           <PostList>

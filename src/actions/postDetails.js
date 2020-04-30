@@ -4,22 +4,12 @@ const token = localStorage.getItem('token')
 
 const baseUrl = "https://us-central1-future-apis.cloudfunctions.net/fourEddit"
 
-
-
-
-//FUNÇÕES SINCRONAS
-
-
 export const setPostDetails = (postDetails) => ({
     type: 'SET_POST_DETAILS',
     payload: {
         postDetails,
     }
 })
-
-
-//FUNÇÕES ASSINCRONAS
-
 
 export const getPostDetails = (postId) => async (dispatch) => {
     const config = {
@@ -35,7 +25,6 @@ export const getPostDetails = (postId) => async (dispatch) => {
     }
 }
 
-
 export const postComment = (comment, postId) => async (dispatch) => {
     const body = {
         text: comment,
@@ -50,6 +39,7 @@ export const postComment = (comment, postId) => async (dispatch) => {
         await axios.post(`${baseUrl}/posts/${postId}/comment`, 
         body, 
         config)
+        dispatch(getPostDetails(postId))
     } catch(error) {
         console.log(body)
         window.alert("Ocorreu um erro ao criar o comentário.")

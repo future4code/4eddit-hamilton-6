@@ -5,23 +5,19 @@ import { getPostDetails } from "../actions/postDetails";
 import { getAllPosts, getPostVotes } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
 import UnLike from "../img/outline_thumb_down_black_18dp.png";
 import Like from "../img/outline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
-
 
 class Post extends Component {
   constructor(props){
@@ -58,29 +54,36 @@ class Post extends Component {
   }
   
   render(){
-    const useStyles = makeStyles((theme) => ({
-      root: {
-        maxWidth: 345,
-        margin: 30,
+
+    const theme = createMuiTheme({
+      overrides: {
+        MuiCard: {
+          root: {
+            margin: "2vw 0",
+            boxShadow: "0.1vw -0.1vw 0.5vw",
+          },
+        },
+        MuiCardContent: {
+          root:{
+            cursor: "pointer",
+          }
+        }
       },
-      media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-      },
-      avatar: {
-        backgroundColor: green[500],
-      },
-    }));
+    });
 
       
     return(
       <div>
-        {this.props.allPosts.map((post) => (
-          <Card className={useStyles.root} key={post.id}>
+        {this.props.allPosts
+        .sort((a, b) => b.votesCount - a.votesCount)
+        .map((post) => (
+          <ThemeProvider theme={theme}>         
+          <Card
+          key={post.id}>
 
               <CardHeader
                 avatar={
-                  <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
+                <Avatar aria-label="recipe"></Avatar>
                 }
                 action={
                   <IconButton aria-label="settings">
@@ -90,13 +93,11 @@ class Post extends Component {
                 title={post.username}   
               />
 
-
               {/* <CardMedia
                 className={useStyles.media}
               >
               <img src={Logo}/>
               </CardMedia> */}
-
 
               <CardContent 
               onClick={ () => this.handleOnClickPostDetails(post.id)} 
@@ -105,7 +106,6 @@ class Post extends Component {
                   {post.text}
                 </Typography>
               </CardContent>
-
 
               <CardActions disableSpacing>
                 
@@ -132,9 +132,8 @@ class Post extends Component {
                 <Typography>{post.commentsCount}</Typography>
                 <Typography>Comentários</Typography>
               </CardActions>
-
-
             </Card>
+            </ThemeProvider>
         ))}
       </div>
     );
@@ -153,4 +152,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post)
-

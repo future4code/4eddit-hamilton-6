@@ -29,7 +29,6 @@ class LoginPage extends Component {
     event.preventDefault()
 
     this.props.toSignUp(this.state.email, this.state.password, this.state.username)
-    console.log(this.state.email, this.state.password, this.state.username)
     this.setState({email: "", password: "", username: ""})
   }
   
@@ -37,7 +36,6 @@ class LoginPage extends Component {
     event.preventDefault()
 
     this.props.toLogin(this.state.email, this.state.password)
-    console.log(this.state.email, this.state.password)
     this.setState({email: "", password: "", username: ""})
   }
 
@@ -122,7 +120,6 @@ const LoginWrapper = styled.form`
   place-content: center center;
   display: grid;
 `
-
 
 const Img = styled.img`
   width: 17vw;
