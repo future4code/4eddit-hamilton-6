@@ -6,22 +6,18 @@ import { getAllPosts, setSelectedPostId, getPostVotes } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
 import UnLike from "../img/outline_thumb_up_black_18dp.png";
 import Like from "../img/baseline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
-
 
 class Post extends Component {
   constructor(props){
@@ -56,19 +52,6 @@ class Post extends Component {
   }
   
   render(){
-    // const useStyles = makeStyles((theme) => ({
-    //   root: {
-    //     maxWidth: 345,
-    //     margin: 200,
-    //   },
-    //   media: {
-    //     height: 0,
-    //     paddingTop: '56.25%', // 16:9
-    //   },
-    //   avatar: {
-    //     backgroundColor: green[500],
-    //   },
-    // }));
 
     const theme = createMuiTheme({
       overrides: {
@@ -78,6 +61,11 @@ class Post extends Component {
             boxShadow: "0.1vw -0.1vw 0.5vw",
           },
         },
+        MuiCardContent: {
+          root:{
+            cursor: "pointer",
+          }
+        }
       },
     });
 
@@ -169,4 +157,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post)
-

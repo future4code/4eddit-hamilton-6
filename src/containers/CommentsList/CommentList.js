@@ -15,28 +15,12 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 
-
-
 const CommentsListWrapper = styled.div`
   width: 100%;
   height: auto;
   min-height: 10vw;
   padding: 3vw;
 `
-
-// const Comment = styled.div`
-//   background-color: white;
-//   width: 100%;
-//   height: auto;
-//   min-height: 2vw;
-//   padding: 1vw 1vw;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-evenly;
-//   box-shadow: 0.1vw -0.1vw 0.1vw;
-//   border-radius: 1vw;
-//   margin-bottom: 1vw;
-// `
 
 class CommentsList extends Component {
   constructor(props) {
@@ -61,8 +45,6 @@ class CommentsList extends Component {
 
     const {isLiked} = this.state
 
-
-
     const useStyles = makeStyles((theme) => ({
       root: {
         maxWidth: 345,
@@ -83,7 +65,6 @@ class CommentsList extends Component {
       },
     });
 
-
     return (
           <CommentsListWrapper>
             {postDetails.comments ? postDetails.comments
@@ -91,7 +72,6 @@ class CommentsList extends Component {
             .map(comment =>(
             <ThemeProvider theme={theme}>
               <Card 
-                // className={useStyles.root} 
                 key={comment.id}
               >
                   <CardHeader
@@ -137,14 +117,11 @@ class CommentsList extends Component {
   }
 }
 
-
-
 const mapStateToProps = state => ({
   postDetails: state.posts.postDetails,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
 })
 
 export default connect (mapStateToProps, mapDispatchToProps) (CommentsList);

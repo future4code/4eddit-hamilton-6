@@ -9,7 +9,6 @@ import {getPostDetails, postComment} from '../../actions/postDetails'
 import { getAllPosts } from "../../actions/post";
 import CommentsList from '../CommentsList/CommentList'
 import Logo from "../../img/logo.png";
-//COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -25,8 +24,6 @@ class PostDetailsPage extends Component {
     super(props);
     this.state = {
       text: "",
-      posts: [],
-      postDetails:{},
     };
   }
 
@@ -40,7 +37,6 @@ class PostDetailsPage extends Component {
   }
 
   handleFieldChange = event => {
-
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -58,6 +54,11 @@ class PostDetailsPage extends Component {
   }
 
   render() {
+
+    const { text } = this.state
+
+    const { postDetails, goBack } = this.props
+
     const useStyles = makeStyles((theme) => ({
       root: {
         maxWidth: 345,
@@ -67,20 +68,17 @@ class PostDetailsPage extends Component {
       },
     }));
 
-
     const theme = createMuiTheme({
       overrides: {
         MuiCard: {
           root: {
             margin: "2vw 0",
             minHeight: "160px",
+            boxShadow: "0.1vw 0.1vw 0.5vw",
           },
         },
       },
     });
-
-    const { text } = this.state
-    const { postDetails, goBack } = this.props
 
     return (
       <PostDetailsPageWrapper>
@@ -94,7 +92,8 @@ class PostDetailsPage extends Component {
         <CommentWrapper>
           <InputWrapper>
           <ThemeProvider theme={theme}>         
-            <Card className={useStyles.root} key={postDetails.id}>
+            <Card
+            key={postDetails.id}>
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
@@ -121,6 +120,7 @@ class PostDetailsPage extends Component {
             value={text}
             multiline
             rowsMax={10}
+            color={"secondary"}
           />
           <Button
             color="secondary"
