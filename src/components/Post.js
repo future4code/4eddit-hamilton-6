@@ -19,10 +19,12 @@ import Logo from "../img/logo.png";
 import UnLike from "../img/outline_thumb_down_black_18dp.png";
 import Like from "../img/outline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
+
 import UpVote from "@material-ui/icons/ThumbUp";
 import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
 import DownVote from "@material-ui/icons/ThumbDown";
 import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
+
 
 class Post extends Component {
   constructor(props){
@@ -120,7 +122,7 @@ class Post extends Component {
                 </Typography>
               </CardContent>
 
-<<<<<<< HEAD
+
 
               <CardActions disableSpacing>                
                   
@@ -147,7 +149,7 @@ class Post extends Component {
                       <DownVote/>                                                     
                     </IconButton>
                     
-=======
+
               <CardActions disableSpacing>
                 
                 <IconButton 
@@ -162,7 +164,7 @@ class Post extends Component {
                 >
                   <img src={UnLike}/>                              
                 </IconButton>
->>>>>>> 18946a57b95d4fa3bc8ebfd115d6f3c0b9be2c2a
+
                 <Typography>{post.votesCount}</Typography> 
                 <Typography>Likes</Typography>
                 <IconButton 
