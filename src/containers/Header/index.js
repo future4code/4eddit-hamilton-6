@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { routes } from '../Router'
 import { Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { green, purple } from '@material-ui/core/colors';
 
 
 class Header extends Component {
