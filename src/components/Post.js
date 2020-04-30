@@ -59,6 +59,7 @@ class Post extends Component {
     const useStyles = makeStyles((theme) => ({
       root: {
         maxWidth: 345,
+        margin: 30,
       },
       media: {
         height: 0,
@@ -96,7 +97,7 @@ class Post extends Component {
               </CardMedia> */}
 
 
-              <CardContent
+              <CardContent 
               onClick={ () => this.handleOnClickPostDetails(post.id)} 
               >
                 <Typography variant="body2" color="textSecondary" component="p">

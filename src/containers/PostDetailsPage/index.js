@@ -9,7 +9,7 @@ import {getPostDetails, postComment} from '../../actions/postDetails'
 import { getAllPosts } from "../../actions/post";
 import Logo from "../../img/logo.png";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -83,6 +83,19 @@ class PostDetailsPage extends Component {
       },
     }));
 
+    const theme = createMuiTheme({
+      overrides: {
+        // Style sheet name ⚛️
+        MuiCard: {
+          // Name of the rule
+          margin: {
+            // Some CSS
+            margin: "30px",
+          },
+        },
+      },
+    });
+
     const {isLiked} = this.state
     const { text } = this.state
     const { postDetails } = this.props
@@ -129,7 +142,11 @@ class PostDetailsPage extends Component {
 
           <CommentsList>
             {postDetails.comments ? postDetails.comments.map(comment =>(
-              <Card className={useStyles.root} key={comment.id}>
+              <Card 
+                className={useStyles.root} 
+                key={comment.id}
+                theme={theme}
+              >
                   <CardHeader
                     avatar={
                       <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
@@ -166,6 +183,7 @@ class PostDetailsPage extends Component {
                     }                  
                   </CardActions>
                 </Card>
+               
                 )) : <span>Carregando...</span>}
           </CommentsList>
         </CommentWrapper>
