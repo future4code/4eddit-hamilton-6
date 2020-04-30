@@ -56,6 +56,11 @@ class LoginPage extends Component {
         </LoginWrapper>
         :
         <LoginWrapper onSubmit={this.toLogin}>
+          {localStorage.getItem('invalidLogin') ?
+            <Invalid>E-mail ou senha inválida</Invalid>
+            :
+            ""
+          }
           <TextField
             onChange={this.handleFieldChange}
             name="email"
@@ -63,7 +68,6 @@ class LoginPage extends Component {
             label="E-mail"
             value={email}
             inputProps={{
-              pattern: '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/',
             }}
           />
           <TextField
@@ -72,6 +76,9 @@ class LoginPage extends Component {
             type="password"
             label="Senha"
             value={password}
+            inputProps={{
+              pattern: '^.{6,}$',
+            }}
           />
           <TextField
             onChange={this.handleFieldChange}
@@ -90,7 +97,9 @@ class LoginPage extends Component {
           </Button>
         </LoginWrapper>
         }
+        {localStorage.removeItem('invalidLogin')}
       </LoginPageWrapper>
+      
     );
   }
 }
@@ -104,6 +113,8 @@ const mapDispatchToProps = (dispatch) => {
 
   }
 }
+
+
 
 export default connect (null, mapDispatchToProps) (LoginPage);
 
@@ -131,4 +142,6 @@ const Img = styled.img`
   border-radius: 2vw;
   margin: 5vw 0 4vw 0;
 `
-
+const Invalid = styled.p`
+  color: red;
+`
