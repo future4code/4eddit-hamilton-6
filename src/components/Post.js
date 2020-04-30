@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
-import UnLike from "../img/baseline_thumb_down_black_18dp.png";
+import UnLike from "../img/outline_thumb_up_black_18dp.png";
 import Like from "../img/baseline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
 
@@ -28,7 +28,7 @@ class Post extends Component {
     super(props);
     this.state = {
       isLiked: true,
-      isDisliked: true,
+     
     };
   }
   
@@ -52,22 +52,14 @@ class Post extends Component {
     console.log("O POST FOI CURTIDO") //APAGAR NO FINAL DO PROJETO
     
     this.props.setSelectedPostId(reaction, postId);
-    
+    this.setState({ isLiked: !this.state.isLiked})
   }
-
-  // handleOnClickReaction = (postId) => {
-  //   console.log("O POST FOI DESCUTIDO") //APAGAR NO FINAL DO PROJETO
-  //   this.props.setSelectedPostId(postId);
-    
-  // }
-
-
-
   
   render(){
     const useStyles = makeStyles((theme) => ({
       root: {
         maxWidth: 345,
+        margin: 30,
       },
       media: {
         height: 0,
@@ -78,12 +70,13 @@ class Post extends Component {
       },
     }));
 
-    const {isLiked, isDisliked} = this.state
+    const {isLiked} = this.state
   
     return(
       <div>
         {this.props.allPosts.map((post) => (
           <Card className={useStyles.root} key={post.id}>
+
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
@@ -95,43 +88,42 @@ class Post extends Component {
                 }
                 title={post.username}   
               />
+
+
               {/* <CardMedia
                 className={useStyles.media}
               >
               <img src={Logo}/>
               </CardMedia> */}
-              <CardContent
+
+
+              <CardContent 
               onClick={ () => this.handleOnClickPostDetails(post.id)} 
               >
                 <Typography variant="body2" color="textSecondary" component="p">
                   {post.text}
                 </Typography>
               </CardContent>
+
+
               <CardActions disableSpacing>
                 {isLiked ?
                 <IconButton 
-                  aria-label="Like Post"
+                  aria-label="DisLiked Post"
                   onClick={() => this.handleOnClickReaction (-1, post.id)}  
                 >
-                  <img src={Like}/>
+                  <img src={UnLike}/>
                   <Typography>{post.votesCount}</Typography> 
                 </IconButton> //NÃO PREENCHIDO
                 :
                 <IconButton 
-                  aria-label="Like Post"
+                  aria-label="Liked Post"
                   onClick={() => this.handleOnClickReaction (1, post.id)}  
                 >
                   <img src={Like}/>
                   <Typography>{post.votesCount}</Typography> 
                 </IconButton> //PREENCHIDO
                 }
-                <IconButton 
-                  aria-label="UnLike Post"
-                  onClick={() => this.handleOnClickReaction (-1, post.id)}  
-                >
-                  <img src={UnLike}/>
-                  <Typography>{post.userVoteDirection}</Typography> 
-                </IconButton>
                 <IconButton 
                   aria-label="Comments"
                   onClick={() => this.handleOnClickPostDetails(post.id)} 
@@ -140,6 +132,8 @@ class Post extends Component {
                   <Typography>{post.commentsCount}</Typography> 
                 </IconButton>
               </CardActions>
+
+
             </Card>
         ))}
       </div>

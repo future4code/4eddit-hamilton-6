@@ -56,10 +56,10 @@ export const getAllPosts = () => async (dispatch, getState) => {
 
 
 
-export const createPost = (form) => async (dispatch) => {
-    const formData = {
-        text: form.text,
-        title: form.title,
+export const createPost = (text, title) => async (dispatch) => {
+    const body = {
+        text: text,
+        title: title,
     }
 
     const config = {
@@ -69,10 +69,12 @@ export const createPost = (form) => async (dispatch) => {
     }
 
     try {
-        await axios.post(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts`, formData, config)
-
+        await axios.post(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts`, 
+        body, config)
+        dispatch(getAllPosts());
+        console.log("RESPONSE ", body)
     } catch(error) {
-        window.alert("Ocorreu um erro ao criar o post.")
+        alert("Ocorreu um erro ao criar o post. Tente novamente.")
     }
 }
 
