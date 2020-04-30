@@ -29,6 +29,7 @@ class FeedPage extends Component {
     });
   };
  
+
   handleCreatePost = () => {
     this.props.createPost(this.state.text, this.state.text);
     this.setState({text: ""});
@@ -66,6 +67,7 @@ class FeedPage extends Component {
               multiline
               rowsMax={10}
             />
+
             </ThemeProvider>
             <Button 
             color="secondary" 
@@ -94,6 +96,7 @@ class FeedPage extends Component {
       goToLoginPage: () => dispatch(push(routes.root)),
       goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
       createPost: (text,title) => dispatch(createPost(text,title)),
+      
     }
   }
 

@@ -11,12 +11,6 @@ export const setAllPosts = (allPosts) => ({
     }
 })
 
-export const setSelectedPostId = (selectedPostId) => ({
-    type: 'SET_SELECTED_POST',
-    payload: {
-        selectedPostId,
-    }
-})
 
 export const setPostDetails = (postDetails) => ({
     type: 'SET_POST_DETAILS',
@@ -25,19 +19,7 @@ export const setPostDetails = (postDetails) => ({
     }
 })
 
-export const increment = (increment) => ({
-    type: 'INCREMENT',
-    payload: {
-        increment,
-    }
-})
 
-export const decrement = (decrement) => ({
-    type: 'DECREMENT',
-    payload: {
-        decrement,
-    }
-})
 
 
 //FUNÇÕES ASSINCRONAS
@@ -81,23 +63,27 @@ export const createPost = (text, title) => async (dispatch) => {
 
 
 
-export const getPostDetail = (PostId) => async (dispatch) => {
+export const getPostDetail = (postId) => async (dispatch) => {
     const config = {
         headers:{
             'auth': window.localStorage.getItem("token")
         }
     }
-
-    const response = await axios.get(``, config)
+    try{
+        const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}`,
+        config)
 
     dispatch(setPostDetails(response.data.post))
+    }catch (error) {
+        console.error(error)
+    }
 }
 
 
-export const getPostVotes = (reaction, postId) => async (dispatch, geState) =>{
+export const getPostVotes = ( direction, postId) => async (dispatch, geState) =>{
     
     const body = {
-        direction: reaction
+        direction:  direction
     }
     
     const config = {
@@ -110,11 +96,11 @@ export const getPostVotes = (reaction, postId) => async (dispatch, geState) =>{
         const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}/vote`, 
         config,
         body)
-        dispatch(getPostDetail(postId))
-        console.log(response.data.direction)//APAGAR AO FINAL DO TRABALHO
+        dispatch(getAllPosts())
+        console.log(response)
     } catch (error) {
-        console.log(body, config)
-        console.error(error)
+        console.log("erro ao curtir o post")
+        
     }
 }
 
