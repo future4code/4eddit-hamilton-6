@@ -94,7 +94,7 @@ class Post extends Component {
         .map((post) => (
           <ThemeProvider theme={theme}>         
           <Card
-          key={post.id}>
+              key={post.id}>
 
               <CardHeader
                 avatar={
@@ -150,7 +150,7 @@ class Post extends Component {
                     </IconButton>
                     
 
-              <CardActions disableSpacing>
+              
                 
                 <IconButton 
                   aria-label="DisLiked Post"
@@ -176,6 +176,7 @@ class Post extends Component {
                 <Typography>{post.commentsCount}</Typography>
                 <Typography>Comentários</Typography>
               </CardActions>
+             
             </Card>
             </ThemeProvider>
         ))}
