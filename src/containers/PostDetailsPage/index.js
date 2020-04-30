@@ -10,18 +10,15 @@ import { getAllPosts } from "../../actions/post";
 import CommentsList from '../CommentsList/CommentList'
 import Logo from "../../img/logo.png";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import UnLike from "../../img/outline_thumb_up_black_18dp.png";
-import Like from "../../img/baseline_thumb_up_black_18dp.png";
 
 class PostDetailsPage extends Component {
   constructor(props) {
@@ -30,12 +27,9 @@ class PostDetailsPage extends Component {
       text: "",
       posts: [],
       postDetails:{},
-      isLiked: true,
     };
   }
 
-  
-  
   componentDidMount(){
     const token = window.localStorage.getItem("token")
     console.log(this.props.postDetails)
@@ -44,7 +38,6 @@ class PostDetailsPage extends Component {
     }
     this.getPostDetails()
   }
-
 
   handleFieldChange = event => {
 
@@ -58,19 +51,11 @@ class PostDetailsPage extends Component {
     this.props.getPostDetails(postId)
   }
 
-
   toPostComment = () => {
     this.props.postComment(this.state.text, this.props.postDetails.id)
     this.props.getPostDetails(this.props.postDetails.id)
     this.setState({text: ""})
   }
-
-  handleOnClickReaction = () => {
-        
-    //this.props.setSelectedPostId(reaction, postId);
-    this.setState({ isLiked: !this.state.isLiked})
-  }
-
 
   render() {
     const useStyles = makeStyles((theme) => ({
@@ -82,24 +67,20 @@ class PostDetailsPage extends Component {
       },
     }));
 
+
     const theme = createMuiTheme({
       overrides: {
-        // Style sheet name ⚛️
         MuiCard: {
-          // Name of the rule
-          margin: {
-            // Some CSS
-            margin: "30px",
+          root: {
+            margin: "2vw 0",
+            minHeight: "160px",
           },
         },
       },
     });
 
-    const {isLiked} = this.state
     const { text } = this.state
     const { postDetails, goBack } = this.props
-
-
 
     return (
       <PostDetailsPageWrapper>
@@ -111,11 +92,8 @@ class PostDetailsPage extends Component {
         </Button>
         </GoBackContainer>
         <CommentWrapper>
-          <Post>
-            <h4>{postDetails.username}</h4>
-            <p>{postDetails.text}</p>
-          </Post>
-          <InputWrapper>          
+          <InputWrapper>
+          <ThemeProvider theme={theme}>         
             <Card className={useStyles.root} key={postDetails.id}>
               <CardHeader
                 avatar={
@@ -134,6 +112,7 @@ class PostDetailsPage extends Component {
                 </Typography>
               </CardContent>              
             </Card>
+            </ThemeProvider>
           <TextField
             onChange={this.handleFieldChange}
             name="text"
@@ -149,52 +128,9 @@ class PostDetailsPage extends Component {
           >Enviar Comentário
           </Button>
           </InputWrapper>
-          <CommentsList>
-            {postDetails.comments ? postDetails.comments.map(comment =>(
-              <Card 
-                className={useStyles.root} 
-                key={comment.id}
-                theme={theme}
-              >
-                  <CardHeader
-                    avatar={
-                      <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
-                    }
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={comment.username}   
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                    {comment.text} 
-                    </Typography>
-                  </CardContent>
-                  <CardActions disableSpacing >
-                    {isLiked ?
-                      <IconButton 
-                        aria-label="DisLiked"
-                        onClick={this.handleOnClickReaction}  
-                      >
-                        <img src={UnLike}/>
-                        <Typography>(numero de curtidas)</Typography> 
-                      </IconButton>
-                      :
-                      <IconButton 
-                        aria-label="Liked"
-                        onClick={this.handleOnClickReaction}
-                      >
-                        <img src={Like}/>
-                        <Typography>(numero de curtidas)</Typography>  
-                      </IconButton> 
-                    }                  
-                  </CardActions>
-                </Card>
-               
-                )) : <span>Carregando...</span>}
-          </CommentsList>
+
+          <CommentsList/>
+
         </CommentWrapper>
       </PostDetailsPageWrapper>
     );
@@ -236,16 +172,15 @@ const GoBackContainer = styled.div`
   justify-content: flex-start;
 `
 
-
 const CommentWrapper = styled.div`
-  background-color: #F8E1D2;
+  background-color: #F6B08F;
   width: 60%;
   height: auto;
   min-height: 68vh;
   min-width: 250px;
   box-shadow: 0.1vw 0.2vw 1vw;
   border-radius: 2vw;
-  padding: 3vw;
+  padding: 2vw;
   margin: 2vw 0;
   display: flex;
   flex-direction: column;
@@ -255,25 +190,10 @@ const CommentWrapper = styled.div`
 const InputWrapper = styled.div`
   background-color: white;
   box-shadow: 0.1vw 0.1vw 0.5vw;
-  padding: 0.5vw 3vw;
+  padding: 1vw 2vw;
   border-radius: 0.5vw;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 `
-
-const Post = styled.div`
-  background-color: white;
-  width: 100%;
-  height: auto;
-  min-height: 10vw;
-  padding: 1vw 1vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  box-shadow: 0 0.3px 0.3vw;
-  border-radius: 1vw;
-  margin-bottom: 1vw;
-`
-

@@ -74,7 +74,9 @@ class Post extends Component {
   
     return(
       <div>
-        {this.props.allPosts.map((post) => (
+        {this.props.allPosts
+        .sort((a, b) => b.votesCount - a.votesCount)
+        .map((post) => (
           <Card className={useStyles.root} key={post.id}>
 
               <CardHeader
