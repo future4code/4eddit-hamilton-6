@@ -20,6 +20,10 @@ class FeedPage extends Component {
 
   componentDidMount(){
     const token = window.localStorage.getItem("token")
+    if (token === null) {
+      this.props.goToLoginPage();
+    }
+    // this.getPostDetails()
   }
 
   
@@ -67,7 +71,6 @@ class FeedPage extends Component {
               multiline
               rowsMax={10}
             />
-
             </ThemeProvider>
             <Button 
             color="secondary" 
@@ -76,11 +79,9 @@ class FeedPage extends Component {
             >Postar
             </Button>
           </PostWrapper>
-
           <PostList>
             <Post/>
           </PostList>
-
       </FeedPageWrapper>
     );
   }
@@ -95,8 +96,6 @@ class FeedPage extends Component {
     return{
       goToLoginPage: () => dispatch(push(routes.root)),
       goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
-      createPost: (text,title) => dispatch(createPost(text,title)),
-      
     }
   }
 
