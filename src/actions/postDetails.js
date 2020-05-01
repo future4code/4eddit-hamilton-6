@@ -45,7 +45,7 @@ export const postComment = (comment, postId) => async (dispatch) => {
         window.alert("Ocorreu um erro ao criar o comentário.")
     }}
 
-    export const getPostVoteComment = ( postId, commentId, direction ) => async (dispatch, geState) =>{
+    export const getPostVoteComment = ( postId, commentId, direction ) => async (dispatch) =>{
         const body = {
             'direction': direction
         }

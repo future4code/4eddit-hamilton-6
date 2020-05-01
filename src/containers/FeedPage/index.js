@@ -94,6 +94,7 @@ class FeedPage extends Component {
 
   const mapDispatchToProps = (dispatch) => {
     return{
+      createPost: (text, tittle) => dispatch(createPost(text, tittle)),
       goToLoginPage: () => dispatch(push(routes.root)),
       goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
     }

@@ -39,8 +39,16 @@ align-items: center;
 justify-content: center;
 width: 100%;
 height: 18vh;
+min-height: 110px;
 background: #ED7F61;
 box-shadow: 0 -0.1vw 1vw;
+
+@media (max-width: 768px) {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 260px;
+}
 `
 
 const Contato = styled.div`
@@ -49,6 +57,12 @@ justify-content: flex-end;
 align-items: center;
 height: 50%;
 width: 50%;
+
+@media(max-width: 768px){
+  justify-content: center;
+  flex-direction: column;
+  height: 70%;
+}
 `
 
 const RedesSociais = styled.div`
@@ -60,6 +74,13 @@ height: 40%;
 width: 50%;
 border-left: 1px dashed white;
 z-index: -0;
+
+@media (max-width: 768px){
+  border-left: none;
+  border-top: 1px dashed white;
+  justify-content: center;
+  height: 20%;
+}
 `
 const DivIcon = styled.div`
   display: flex;
@@ -69,7 +90,9 @@ const DivIcon = styled.div`
   background-color: white;
   border-radius: 50%;
   height: 2vw;
+  min-height: 25px;
   width: 2vw;
+  min-width: 25px;
   margin: 0 1vw;
 `
 
@@ -79,19 +102,19 @@ const DivIcon2 = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  height: 2vw;
-  width: 2vw;
+  height: 35px;
+  width: 35px;
   margin-right: 1vw;
   background: url(${props => props.img});
-  background-size: 2vw 2vw;
+  background-size: 35px 35px;
   background-repeat: no-repeat;
 
   &:before {
   content: " ";
   border-radius: 5px;
   position: absolute;
-  width: 2vw; 
-  height: 2vw;
+  width: 35px; 
+  height: 35px;
   background-color: white;
   z-index: -2;
   }
@@ -100,6 +123,6 @@ const DivIcon2 = styled.div`
 const Texto = styled.div`
   color: white;
   text-align: center;
-  font-size: 0.6vw;
+  font-size: 10px;
   margin: 0 1vw;
 `
