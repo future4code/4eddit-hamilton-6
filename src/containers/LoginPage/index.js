@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import { routes } from "../Router";
 import {toLogin, toSignUp} from '../../actions/login'
 import Logo from '../../img/logo.png'
+import Chip from '@material-ui/core/Chip';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -27,7 +28,6 @@ class LoginPage extends Component {
 
   toSignUp = event => {
     event.preventDefault()
-
     this.props.toSignUp(this.state.email, this.state.password, this.state.username)
     this.setState({email: "", password: "", username: ""})
   }
@@ -49,8 +49,14 @@ class LoginPage extends Component {
         {isLoged ?
         <LoginWrapper>
         <Img src={Logo}/>
+        <Chip
+        label = {localStorage.getItem('username')}
+        color = "secondary"
+        variant= 'outlined'
+        />
         <Button 
         onClick={goToFeedPage}
+        color='primary'
         >Explore seu Feed!
         </Button>
         </LoginWrapper>
@@ -110,7 +116,6 @@ const mapDispatchToProps = (dispatch) => {
     toSignUp: (email, password, username) => dispatch(toSignUp(email, password, username)),
     toLogin: (email, password) => dispatch(toLogin(email, password)),
     goToFeedPage: () => dispatch(push(routes.feedPage))
-
   }
 }
 
@@ -130,8 +135,8 @@ const LoginPageWrapper = styled.div`
 const LoginWrapper = styled.form`
   width: 100%;
   height: 100%;
-  gap: 10px;
   place-content: center center;
+  gap: 1vw;
   display: grid;
 `
 

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import UnLike from "../../img/outline_thumb_up_black_18dp.png";
-import Like from "../../img/baseline_thumb_up_black_18dp.png";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,14 +11,11 @@ import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/sty
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-
-
-const CommentsListWrapper = styled.div`
-  width: 100%;
-  height: auto;
-  min-height: 10vw;
-  padding: 3vw;
-`
+import UpVote from "@material-ui/icons/ThumbUp";
+import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
+import DownVote from "@material-ui/icons/ThumbDown";
+import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
+import { getPostVoteComment } from '../../actions/postDetails'
 
 class CommentsList extends Component {
   constructor(props) {
@@ -29,21 +24,15 @@ class CommentsList extends Component {
       text: "",
       posts: [],
       postDetails:{},
-      isLiked: true,
     };
   }
 
-  handleOnClickReaction = () => {
-        
-    //this.props.setSelectedPostId(reaction, postId);
-    this.setState({ isLiked: !this.state.isLiked})
+  clickVoteComment = (postId, commentId, direction) => {
+    this.props.getPostVoteComment(postId, commentId, direction);
   }
-
 
   render() {
     const { postDetails } = this.props
-
-    const {isLiked} = this.state
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -68,7 +57,7 @@ class CommentsList extends Component {
     return (
           <CommentsListWrapper>
             {postDetails.comments ? postDetails.comments
-            .sort((a, b) => a.votesCount - b.votesCount)
+            .sort((a, b) => b.votesCount - a.votesCount)
             .map(comment =>(
             <ThemeProvider theme={theme}>
               <Card 
@@ -91,23 +80,34 @@ class CommentsList extends Component {
                     </Typography>
                   </CardContent>
                   <CardActions disableSpacing >
-                    {isLiked ?
-                      <IconButton 
-                        aria-label="DisLiked"
-                        onClick={this.handleOnClickReaction}  
-                      >
-                        <img src={UnLike}/>
-                        <Typography>(numero de curtidas)</Typography> 
+                    <IconButton 
+                        aria-label="DisLiked comment"                    
+                      >                             
+                        {comment.userVoteDirection === 1 ? (
+                          <UpVote
+                          onClick = {() => this.clickVoteComment(postDetails.id, comment.id, 0)}
+                          /> 
+                          ):( 
+                          <UpVoteOutlined
+                          onClick = {() => this.clickVoteComment(postDetails.id, comment.id, 1)}
+                          />
+                          )}          
                       </IconButton>
-                      :
                       <IconButton 
-                        aria-label="Liked"
-                        onClick={this.handleOnClickReaction}
+                        aria-label="DisLiked comment"                    
                       >
-                        <img src={Like}/>
-                        <Typography>(numero de curtidas)</Typography>  
+                        {comment.userVoteDirection === -1 ? (
+                          <DownVote 
+                          onClick = {() => this.clickVoteComment(postDetails.id, comment.id, 0)}
+                          />
+                          ):(
+                          <DownVoteOutlined 
+                          onClick = {() => this.clickVoteComment(postDetails.id, comment.id, -1)}
+                          />
+                          )}
                       </IconButton> 
-                    }                  
+                      <Typography>{comment.votesCount}</Typography> 
+                      <Typography>Likes</Typography>                    
                   </CardActions>
                 </Card>
                 </ThemeProvider>
@@ -122,9 +122,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  getPostVoteComment: (postId, commentId, direction) => dispatch(getPostVoteComment(postId, commentId, direction)),
 })
 
 export default connect (mapStateToProps, mapDispatchToProps) (CommentsList);
 
-
-
+const CommentsListWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  min-height: 10vw;
+  padding: 3vw;
+`

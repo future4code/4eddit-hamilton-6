@@ -1,8 +1,8 @@
 import axios from 'axios';
 
+const baseUrl = "https://us-central1-future-apis.cloudfunctions.net/fourEddit"
 
-//FUNÇÕES SINCRONAS
-
+const token = window.localStorage.getItem("token");
 
 export const setAllPosts = (allPosts) => ({
     type: 'SET_ALL_POSTS',
@@ -20,82 +20,72 @@ export const setPostDetails = (postDetails) => ({
 })
 
 
-
-
 //FUNÇÕES ASSINCRONAS
 
 export const getAllPosts = () => async (dispatch, getState) => {
     const config = {
         headers:{
-            'auth': window.localStorage.getItem("token")
+            'auth': token
         }
     }
-    
-    const response = await axios.get('https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts', config)
-
+    const response = await axios.get(`${baseUrl}/posts`, 
+    config)
     dispatch(setAllPosts(response.data.posts))
 } 
-
-
 
 export const createPost = (text, title) => async (dispatch) => {
     const body = {
         text: text,
         title: title,
     }
-
     const config = {
         headers: {
-            'auth': window.localStorage.getItem("token")
+            'auth': token
         }
     }
-
     try {
-        await axios.post(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts`, 
+        await axios.post(`${baseUrl}/posts`, 
         body, 
         config)
         dispatch(getAllPosts());
-        console.log("RESPONSE ", body)
     } catch(error) {
-        alert("Ocorreu um erro ao criar o post. Tente novamente.")
+        console.error(error)
     }
 }
-
-
 
 export const getPostDetail = (postId) => async (dispatch) => {
     const config = {
         headers:{
-            'auth': window.localStorage.getItem("token")
+            'auth': token
         }
     }
     try{
-        const response = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${postId}`,
+        const response = await axios.get(`${baseUrl}/posts/${postId}`,
         config)
-
-    dispatch(setPostDetails(response.data.post))
+        dispatch(setPostDetails(response.data.post))
     }catch (error) {
         console.error(error)
     }
 }
 
-
-export const getPostVotes = ( postId, direction) => async (dispatch, geState) =>{
-    const token = window.localStorage.getItem("token");
-    const idVote = postId;
-    const data = { direction:  direction };
-    console.log("postId vote: ", idVote);
-    
+export const getPostVote = ( postId, direction ) => async (dispatch, geState) =>{
+    const body = {
+        'direction': direction
+    }
+    const config = {
+        headers: {
+            'auth': token
+        }
+    }
     try{
-        const response = await axios.get(
-            `https://us-central1-future-apis.cloudfunctions.net/fourEddit/posts/${idVote}/vote`, 
-        data,{ headers: { auth: token,}}
-        );
-        
+        await axios.put(`${baseUrl}/posts/${postId}/vote`, 
+        body,
+        config)
+        console.log(postId, body)
         dispatch(getAllPosts());
-        
     } catch (error) {
-        console.log("erro ao curtir o post")        
+        console.error(error)   
+        console.log(body, config, postId, direction)     
     }
 }
 

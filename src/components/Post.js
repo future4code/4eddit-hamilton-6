@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { getPostDetails } from "../actions/postDetails";
-import { getAllPosts, getPostVotes } from "../actions/post";
+import { getAllPosts, getPostVote } from "../actions/post";
 import { routes } from "../containers/Router";
 //COMPONENTES DA ESTILIZAÇÂO DO CARD
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
@@ -16,10 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Logo from "../img/logo.png";
 //ICONES DO LOGO
-import UnLike from "../img/outline_thumb_down_black_18dp.png";
-import Like from "../img/outline_thumb_up_black_18dp.png";
 import Comment from "../img/baseline_comment_black_18dp.png";
-
 import UpVote from "@material-ui/icons/ThumbUp";
 import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
 import DownVote from "@material-ui/icons/ThumbDown";
@@ -51,23 +48,12 @@ class Post extends Component {
     this.props.goToPostDetailsPage();
   }
 
-  handleOnClickReaction = (postId) => {
-    console.log("ID DO POST: ", postId) //APAGAR NO FINAL DO PROJETO
-    this.setState({ isLiked: !this.state.isLiked})
-    this.props.getPostDetails(postId);
-    localStorage.setItem('postId', postId)
-   
+
+  clickVote = (postId, direction) => {
+    console.log(postId, direction)
+    this.props.getPostVote(postId, direction);
   }
 
-  clickVote = (post,direction) => {
-    if(post.userVoteDirection === direction) {
-      this.props.getPostVote(post, 0);
-    } else {
-    this.props.getPostVote(post, direction);
-    console.log(post.id)
-  }}
-
-  
   render(){
 
     const theme = createMuiTheme({
@@ -85,11 +71,11 @@ class Post extends Component {
         }
       },
     });
-
       
     return(
       <div>
         {this.props.allPosts
+        .sort((a, b) => b.commentsCount - a.commentsCount)
         .sort((a, b) => b.votesCount - a.votesCount)
         .map((post) => (
           <ThemeProvider theme={theme}>         
@@ -122,10 +108,7 @@ class Post extends Component {
                 </Typography>
               </CardContent>
 
-
-
-              <CardActions disableSpacing>                
-                  
+              {/* <CardActions disableSpacing>               
                     <IconButton 
                       aria-label="DisLiked Post"                    
                       onClickDownVote = {() => this.clickVote(post.id,-1)}
@@ -147,12 +130,37 @@ class Post extends Component {
                       }
                     >
                       <DownVote/>                                                     
-                    </IconButton>
-                    
+                    </IconButton> */}
 
-              
-                
-                <IconButton 
+                  <CardActions disableSpacing> 
+                    <IconButton 
+                      aria-label="DisLiked Post"                    
+                    >                             
+                      {post.userVoteDirection === 1 ? (
+                        <UpVote
+                        onClick = {() => this.clickVote(post.id,0)}
+                        /> 
+                        ):( 
+                        <UpVoteOutlined
+                        onClick = {() => this.clickVote(post.id,1)}
+                        />
+                        )}          
+                    </IconButton>
+                    <IconButton 
+                      aria-label="DisLiked Post"                    
+                    >
+                      {post.userVoteDirection === -1 ? (
+                        <DownVote 
+                        onClick = {() => this.clickVote(post.id,0)}
+                        />
+                        ):(
+                        <DownVoteOutlined 
+                        onClick = {() => this.clickVote(post.id,-1)}
+                        />
+                        )}
+                    </IconButton>   
+                  
+                {/* <IconButton 
                   aria-label="DisLiked Post"
                   onClick={() => this.handleOnClickReaction (post.id)}  
                 >
@@ -163,7 +171,7 @@ class Post extends Component {
                   onClick={() => this.handleOnClickReaction (post.id)}  
                 >
                   <img src={UnLike}/>                              
-                </IconButton>
+                </IconButton> */}
 
                 <Typography>{post.votesCount}</Typography> 
                 <Typography>Likes</Typography>
@@ -190,9 +198,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAllPosts: () => dispatch(getAllPosts()),
   goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
-  getPostVotes: ( postId, direction) => dispatch(getPostVotes(postId, direction)),
+  getAllPosts: () => dispatch(getAllPosts()),
+  getPostVote: (postId, direction) => dispatch(getPostVote(postId, direction)),
   getPostDetails: (postId) => dispatch(getPostDetails(postId)),
 });
 
