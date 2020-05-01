@@ -4,18 +4,8 @@ const initialState = {
     postDetails: {},
     like: 0,
     disLike: 0,
+    toRenderSignUp: undefined,
 }
-//RESPOSTA DA API
-// "posts": [
-//     {
-//       "votesCount": 1,
-//       "userVoteDirection": 1,
-//       "commentsCount": 2,
-//       "id": "XFM8JtoESiWKqCml3Rjz",
-//       "username": "darvas",
-//       "text": "Oi gente! Bem vindos ao 4eddit :)"
-//     }
-//   ]
 
 const posts = (state = initialState, action) => {
     console.log(action.payload)
@@ -26,6 +16,9 @@ const posts = (state = initialState, action) => {
         case 'SET_POST_DETAILS':
             const postDetails = action.payload.postDetails;
             return {...state, postDetails: postDetails};
+        case 'SET_RENDER_SIGN_UP':
+            const renderSignUp = action.payload.renderSignUp;
+            return {...state, toRenderSignUp: renderSignUp};
         
         default:
             return state;

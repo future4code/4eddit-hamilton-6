@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { routes } from '../Router'
 import { Button } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-
+import {toRenderSignUp} from '../../actions/login'
 
 class Header extends Component {
 
@@ -61,7 +61,7 @@ class Header extends Component {
         :
         <ButtonWrapper>
           <SignUp
-          onClick={this.props.goToLoginPage}
+          onClick={this.props.toRenderSignUp}
           >Cadastre-se
           </SignUp>
         </ButtonWrapper>
@@ -73,7 +73,8 @@ class Header extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        goToLoginPage: () => dispatch(push(routes.root)),
+      goToLoginPage: () => dispatch(push(routes.root)),
+      toRenderSignUp: () => dispatch(toRenderSignUp(true))
     }
   }
   

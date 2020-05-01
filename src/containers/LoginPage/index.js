@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { routes } from "../Router";
-import {toLogin, toSignUp} from '../../actions/login'
+import {toLogin, toSignUp, toRenderSignUp} from '../../actions/login'
 import Logo from '../../img/logo.png'
 import Chip from '@material-ui/core/Chip';
 
@@ -15,7 +15,7 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
-      username:""
+      username:"",
     };
   }
 
@@ -41,24 +41,24 @@ class LoginPage extends Component {
 
 
   render() {
-    const {email, password, username, goToFeedPage} = this.props
+    const {email, password, username, goToFeedPage, signUpRender, toRenderSignUp } = this.props
     const isLoged = localStorage.getItem("token") !== null
 
     return (
       <LoginPageWrapper>
         {isLoged ?
         <LoginWrapper>
-        <Img src={Logo}/>
-        <Chip
-        label = {localStorage.getItem('username')}
-        color = "secondary"
-        variant= 'outlined'
-        />
-        <Button 
-        onClick={goToFeedPage}
-        color='primary'
-        >Explore seu Feed!
-        </Button>
+          <Img src={Logo}/>
+          <Chip
+          label = {localStorage.getItem('username')}
+          color = "secondary"
+          variant= 'outlined'
+          />
+          <Button 
+          onClick={goToFeedPage}
+          color='primary'
+          >Explore seu Feed!
+          </Button>
         </LoginWrapper>
         :
         <LoginWrapper onSubmit={this.toLogin}>
@@ -86,6 +86,7 @@ class LoginPage extends Component {
               pattern: '^.{6,}$',
             }}
           />
+          {signUpRender ? (
           <TextField
             onChange={this.handleFieldChange}
             name="username"
@@ -93,14 +94,26 @@ class LoginPage extends Component {
             label="Nome de Usuário"
             value={username}
           />
-          <Button
-          type="submit"
-          >Login
-          </Button>
-          <Button
-          onClick={this.toSignUp} 
-          >Cadastrar
-          </Button>
+          ) : (
+          ""
+          )}
+          {signUpRender ? (
+            <Fragment>
+              <Button
+                onClick={this.toSignUp} 
+                >Cadastrar
+              </Button>
+              <Button
+                onClick={toRenderSignUp} 
+                >Voltar ao Login
+              </Button>
+            </Fragment>
+          ) : (
+            <Button
+              type="submit"
+              >Login
+            </Button>
+          )}
         </LoginWrapper>
         }
         {localStorage.removeItem('invalidLogin')}
@@ -110,18 +123,22 @@ class LoginPage extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  signUpRender: state.posts.toRenderSignUp
+})
 
 const mapDispatchToProps = (dispatch) => {
   return{
     toSignUp: (email, password, username) => dispatch(toSignUp(email, password, username)),
     toLogin: (email, password) => dispatch(toLogin(email, password)),
+    toRenderSignUp: () => dispatch(toRenderSignUp(false)),
     goToFeedPage: () => dispatch(push(routes.feedPage))
   }
 }
 
 
 
-export default connect (null, mapDispatchToProps) (LoginPage);
+export default connect (mapStateToProps, mapDispatchToProps) (LoginPage);
 
 const LoginPageWrapper = styled.div`
   display: flex;
