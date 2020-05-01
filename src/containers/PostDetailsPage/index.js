@@ -29,7 +29,6 @@ class PostDetailsPage extends Component {
 
   componentDidMount(){
     const token = window.localStorage.getItem("token")
-    console.log(this.props.postDetails)
     if (token === null) {
       this.props.goToLoginPage();
     }

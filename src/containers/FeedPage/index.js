@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { routes } from "../Router";
-import { createPost } from "../../actions/post";
+import { createPost, getAllPosts } from "../../actions/post";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Post from "../../components/Post";
@@ -20,10 +20,10 @@ class FeedPage extends Component {
 
   componentDidMount(){
     const token = window.localStorage.getItem("token")
-    if (token === null) {
+    if (!token) {
       this.props.goToLoginPage();
     }
-    // this.getPostDetails()
+    this.props.getAllPosts()
   }
 
   
@@ -97,6 +97,7 @@ class FeedPage extends Component {
       createPost: (text, tittle) => dispatch(createPost(text, tittle)),
       goToLoginPage: () => dispatch(push(routes.root)),
       goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
+      getAllPosts: () => dispatch(getAllPosts())
     }
   }
 

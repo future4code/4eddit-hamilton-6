@@ -57,7 +57,7 @@ class CommentsList extends Component {
     return (
           <CommentsListWrapper>
             {postDetails.comments ? postDetails.comments
-            .sort((a, b) => b.votesCount - a.votesCount)
+            .sort((commentA, commentB) => commentB.votesCount - commentA.votesCount)
             .map(comment =>(
             <ThemeProvider theme={theme}>
               <Card 
