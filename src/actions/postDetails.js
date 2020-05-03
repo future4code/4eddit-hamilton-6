@@ -59,10 +59,8 @@ export const postComment = (comment, postId) => async (dispatch) => {
             await axios.put(`${baseUrl}/posts/${postId}/comment/${commentId}/vote`, 
             body,
             config)
-            console.log(postId, body)
             dispatch(getPostDetails(postId));
         } catch (error) {
             console.error(error)   
-            console.log(body, config, postId, direction)     
         }
     }

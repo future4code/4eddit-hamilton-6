@@ -6,7 +6,7 @@ import { createPost, getAllPosts } from "../../actions/post";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import LoadingRing from "../../components/LoadingRing";
 import PostList from "../PostList/PostList";
 
@@ -16,7 +16,6 @@ class FeedPage extends Component {
     this.state = {
       text: "",
       title: "",
-      searchInput: '',
     };
   }
 
@@ -44,7 +43,7 @@ class FeedPage extends Component {
   }
 
   render() {
-    const { text, searchInput } = this.state
+    const { text } = this.state
     const { allPosts } = this.props
 
     const theme = createMuiTheme({
@@ -92,12 +91,10 @@ class FeedPage extends Component {
               <p>Aguarda um Cadim!</p>
             </PostListWrapper>
           }
-
       </FeedPageWrapper>
-    );
+     );
+    }
   }
-  }
-
 
   const mapStateToProps = state => ({
     allPosts: state.posts.allPosts.posts,
@@ -143,6 +140,3 @@ const PostListWrapper = styled.div`
   min-width: 250px;
   height: auto;
 `
-
-
-

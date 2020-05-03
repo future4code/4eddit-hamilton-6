@@ -22,7 +22,6 @@ import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
 import DownVote from "@material-ui/icons/ThumbDown";
 import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
 
-
 class PostList extends Component {
   constructor(props){
     super(props);
@@ -36,7 +35,6 @@ class PostList extends Component {
     if (token === null) {
       this.props.goToLoginPage()
     }
-
     this.props.getAllPosts()
   }
 
@@ -196,7 +194,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList)
-
 
 const SearchWrapper = styled.div`
   width: 60%;

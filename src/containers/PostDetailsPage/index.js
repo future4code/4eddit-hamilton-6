@@ -8,15 +8,13 @@ import { routes } from "../Router";
 import {getPostDetails, postComment} from '../../actions/postDetails'
 import { getAllPosts } from "../../actions/post";
 import CommentsList from '../CommentsList/CommentList'
-import Logo from "../../img/logo.png";
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { green } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 class PostDetailsPage extends Component {
@@ -53,19 +51,8 @@ class PostDetailsPage extends Component {
   }
 
   render() {
-
     const { text } = this.state
-
     const { postDetails, goBack } = this.props
-
-    const useStyles = makeStyles((theme) => ({
-      root: {
-        maxWidth: 345,
-      },      
-      avatar: {
-        backgroundColor: green[500],
-      },
-    }));
 
     const theme = createMuiTheme({
       overrides: {
@@ -95,7 +82,7 @@ class PostDetailsPage extends Component {
             key={postDetails.id}>
               <CardHeader
                 avatar={
-                  <Avatar aria-label="recipe" className={useStyles.avatar}></Avatar>
+                  <Avatar aria-label="recipe" ></Avatar>
                 }
                 action={
                   <IconButton aria-label="settings">

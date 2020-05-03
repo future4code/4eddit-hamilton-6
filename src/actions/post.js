@@ -85,11 +85,9 @@ export const getPostVote = ( postId, direction ) => async (dispatch, geState) =>
         await axios.put(`${baseUrl}/posts/${postId}/vote`, 
         body,
         config)
-        console.log(postId, body)
         dispatch(getAllPosts());
     } catch (error) {
         console.error(error)   
-        console.log(body, config, postId, direction)     
     }
 }
 

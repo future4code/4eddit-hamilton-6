@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from 'styled-components'
 import logo from '../../img/logo.png'
-import { push, goBack } from 'connected-react-router'
+import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { routes } from '../Router'
 import { Button } from "@material-ui/core";
@@ -29,7 +29,10 @@ class Header extends Component {
             color: 'white',
             height: "45px",
             padding: '0 30px',
-            fontWeight: 900,
+            fontWeight: 600,
+            fontFamily: 'times',
+            textTransform: 'capitalize',
+            fontSize: 18,
             '&:hover': {
               backgroundColor: "#F4A384",
               borderColor: '#0062cc',
@@ -39,7 +42,6 @@ class Header extends Component {
         },
       },
     });
-    
 
     return (
       <HeaderWrapper>
@@ -54,7 +56,7 @@ class Header extends Component {
             <Button
             onClick={this.toLogout}
             >
-            Logout
+            LogOut
             </Button>
           </ThemeProvider>
         </ButtonWrapper>
@@ -78,9 +80,7 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
   
-
   export default connect (null, mapDispatchToProps) (Header);
-
 
 const HeaderWrapper = styled.div`
 width:100%;
@@ -106,17 +106,19 @@ const ImgContainer = styled.div`
 const Img = styled.img`
   width: 100px;
   cursor: pointer;
+  border-radius: 3px;
   &:hover {
     opacity: 0.8;
   }
 `
 const SignUp = styled.div`
   text-align: center;
-  font-size: 16px;
+  font-size: 19px;
   color: #EC7D62;
-  font-weight: 700;
+  font-weight: 900;
   height: 70%;
   cursor: pointer;
+  font-family: 'Times New Roman', Times, serif;
   `
 
 const ButtonWrapper = styled.div`
@@ -130,4 +132,3 @@ const ButtonWrapper = styled.div`
   width: 100px;
   cursor: pointer;
   `
-

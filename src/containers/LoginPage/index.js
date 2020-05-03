@@ -8,8 +8,7 @@ import { routes } from "../Router";
 import {toLogin, toSignUp, toRenderSignUp} from '../../actions/login'
 import Logo from '../../img/logo.png'
 import Chip from '@material-ui/core/Chip';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -20,7 +19,6 @@ class LoginPage extends Component {
       username:"",
     };
   }
-
 
   handleFieldChange = event => {
     this.setState({
@@ -41,7 +39,6 @@ class LoginPage extends Component {
     this.setState({email: "", password: "", username: ""})
   }
 
-
   render() {
     const {email, password, username, goToFeedPage, signUpRender, toRenderSignUp } = this.props
     const isLoged = localStorage.getItem("token") !== null
@@ -51,7 +48,7 @@ class LoginPage extends Component {
         MuiButton: {
           root: {
             color: '#ffff',
-            backgroundColor: '#E2AC9D',
+            backgroundColor: '#ED6161',
             '&:hover': {color: '#ED7F61'},
           },
         },
@@ -166,8 +163,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-
-
 export default connect (mapStateToProps, mapDispatchToProps) (LoginPage);
 
 const LoginPageWrapper = styled.div`
@@ -194,6 +189,7 @@ const Img = styled.img`
   border-radius: 2vw;
   margin: 5vw 0 4vw 0;
 `
+
 const Invalid = styled.p`
   color: red;
 `

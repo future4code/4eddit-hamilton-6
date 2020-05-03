@@ -7,8 +7,6 @@ import Footer from "../../components/Footer";
 import FeedPage from "../FeedPage";
 import PostDetailsPage from "../PostDetailsPage";
 
-
-
 export const routes = {
   root: "/",
   feedPage: "/feed",
