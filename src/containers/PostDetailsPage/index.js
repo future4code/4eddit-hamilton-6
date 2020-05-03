@@ -183,7 +183,7 @@ const CommentWrapper = styled.div`
   margin: 2vw 0;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  border: 1px white solid;
 `
 
 const InputWrapper = styled.div`

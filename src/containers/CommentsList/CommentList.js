@@ -16,6 +16,7 @@ import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
 import DownVote from "@material-ui/icons/ThumbDown";
 import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
 import { getPostVoteComment } from '../../actions/postDetails'
+import LoadingRing from "../../components/LoadingRing";
 
 class CommentsList extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class CommentsList extends Component {
           root: {
             margin: "2vw",
             boxShadow: "0.1vw -0.1vw 0.5vw",
+            width: '100%',
           },
         },
       },
@@ -111,7 +113,8 @@ class CommentsList extends Component {
                   </CardActions>
                 </Card>
                 </ThemeProvider>
-                )) : <span>Carregando...</span>}
+                )) : 
+                <LoadingRing/>}
           </CommentsListWrapper>
     );
   }
@@ -132,4 +135,8 @@ const CommentsListWrapper = styled.div`
   height: auto;
   min-height: 10vw;
   padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 `

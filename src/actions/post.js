@@ -22,15 +22,19 @@ export const setPostDetails = (postDetails) => ({
 
 //FUNÇÕES ASSINCRONAS
 
-export const getAllPosts = () => async (dispatch, getState) => {
+export const getAllPosts = () => async (dispatch) => {
     const config = {
         headers:{
             'auth': token
         }
     }
+    try{
     const response = await axios.get(`${baseUrl}/posts`, 
     config)
-    dispatch(setAllPosts(response.data.posts))
+    dispatch(setAllPosts(response.data))
+    } catch (error){
+        console.error(error)
+    }
 } 
 
 export const createPost = (text, title) => async (dispatch) => {

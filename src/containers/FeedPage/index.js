@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Post from "../../components/Post";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import LoadingRing from "../../components/LoadingRing";
 
 class FeedPage extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class FeedPage extends Component {
 
   render() {
     const { text } = this.state
+    const { allPosts } = this.props
 
     const theme = createMuiTheme({
       overrides: {
@@ -79,9 +81,16 @@ class FeedPage extends Component {
             >Postar
             </Button>
           </PostWrapper>
-          <PostList>
-            <Post/>
-          </PostList>
+          {allPosts ?
+            <PostList>
+              <Post/>
+            </PostList>
+            :
+            <PostList>
+              <LoadingRing/>
+            </PostList>
+          }
+
       </FeedPageWrapper>
     );
   }
@@ -89,7 +98,7 @@ class FeedPage extends Component {
 
 
   const mapStateToProps = state => ({
-    allPosts: state.allPosts
+    allPosts: state.posts.allPosts.posts,
   });
 
   const mapDispatchToProps = (dispatch) => {

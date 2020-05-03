@@ -18,7 +18,8 @@ export const getPostDetails = (postId) => async (dispatch) => {
         }
     }
     try{
-        const response = await axios.get(`${baseUrl}/posts/${postId}`, config)
+        const response = await axios.get(`${baseUrl}/posts/${postId}`, 
+        config)
         dispatch(setPostDetails(response.data.post))
     } catch (error) {
         console.error(error)
