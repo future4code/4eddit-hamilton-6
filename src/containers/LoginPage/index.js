@@ -8,6 +8,8 @@ import { routes } from "../Router";
 import {toLogin, toSignUp, toRenderSignUp} from '../../actions/login'
 import Logo from '../../img/logo.png'
 import Chip from '@material-ui/core/Chip';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
 
 class LoginPage extends Component {
   constructor(props) {
@@ -43,6 +45,28 @@ class LoginPage extends Component {
   render() {
     const {email, password, username, goToFeedPage, signUpRender, toRenderSignUp } = this.props
     const isLoged = localStorage.getItem("token") !== null
+
+    const theme = createMuiTheme({
+      overrides: {
+        MuiButton: {
+          root: {
+            color: '#ffff',
+            backgroundColor: '#E2AC9D',
+            '&:hover': {color: '#ED7F61'},
+          },
+        },
+      },
+    });
+    
+    const theme2 = createMuiTheme({
+      overrides: {
+        MuiButton: {
+          root: {
+            color: '#ED7F61',
+          },
+        },
+      },
+    });
 
     return (
       <LoginPageWrapper>
@@ -99,20 +123,26 @@ class LoginPage extends Component {
           )}
           {signUpRender ? (
             <Fragment>
+              <ThemeProvider theme={theme2}>
               <Button
                 onClick={this.toSignUp} 
                 >Cadastrar
               </Button>
-              <Button
-                onClick={toRenderSignUp} 
-                >Voltar ao Login
-              </Button>
+              </ThemeProvider>
+              <ThemeProvider theme={theme}>
+                <Button
+                  onClick={toRenderSignUp} 
+                  >Voltar ao Login
+                </Button>
+              </ThemeProvider>
             </Fragment>
           ) : (
+            <ThemeProvider theme={theme2}>
             <Button
               type="submit"
               >Login
             </Button>
+            </ThemeProvider>
           )}
         </LoginWrapper>
         }
