@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { getPostDetails } from "../actions/postDetails";
@@ -21,6 +21,7 @@ import UpVote from "@material-ui/icons/ThumbUp";
 import UpVoteOutlined from "@material-ui/icons/ThumbUpOutlined";
 import DownVote from "@material-ui/icons/ThumbDown";
 import DownVoteOutlined from "@material-ui/icons/ThumbDownOutlined";
+import LoadingRing from "./LoadingRing";
 
 
 class Post extends Component {
@@ -55,6 +56,7 @@ class Post extends Component {
   }
 
   render(){
+    const { allPosts } = this.props
 
     const theme = createMuiTheme({
       overrides: {
@@ -62,6 +64,7 @@ class Post extends Component {
           root: {
             margin: "2vw 0",
             boxShadow: "0.1vw -0.1vw 0.5vw",
+            width: '100%',
           },
         },
         MuiCardContent: {
@@ -73,128 +76,129 @@ class Post extends Component {
     });
       
     return(
-      <div>
-        {this.props.allPosts
-        .sort((a, b) => b.commentsCount - a.commentsCount)
-        .sort((a, b) => b.votesCount - a.votesCount)
-        .map((post) => (
-          <ThemeProvider theme={theme}>         
-          <Card
-              key={post.id}>
+      <Fragment>
+        {allPosts
+          .sort((a, b) => b.commentsCount - a.commentsCount)
+          .sort((a, b) => b.votesCount - a.votesCount)
+          .map((post) => (
+            <ThemeProvider theme={theme}>         
+            <Card
+                key={post.id}>
 
-              <CardHeader
-                avatar={
-                <Avatar aria-label="recipe"></Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-                title={post.username}   
-              />
-
-              {/* <CardMedia
-                className={useStyles.media}
-              >
-              <img src={Logo}/>
-              </CardMedia> */}
-
-              <CardContent 
-              onClick={ () => this.handleOnClickPostDetails(post.id)} 
-              >
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {post.text}
-                </Typography>
-              </CardContent>
-
-              {/* <CardActions disableSpacing>               
-                    <IconButton 
-                      aria-label="DisLiked Post"                    
-                      onClickDownVote = {() => this.clickVote(post.id,-1)}
-                      DownVote={
-                        post.userVoteDirection < 0 ? (
-                          <DownVote />
-                        ) : (
-                          <DownVoteOutlined />
-                        )
-                      }
-                    >
-                      <UpVote/>                   
-                    </IconButton>                  
-                    <IconButton 
-                      aria-label="Liked Post"
-                      onClickUpVote = {() => this.clickVote(post.id,1)}
-                      upVote={
-                        post.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />
-                      }
-                    >
-                      <DownVote/>                                                     
-                    </IconButton> */}
-
-                  <CardActions disableSpacing> 
-                    <IconButton 
-                      aria-label="DisLiked Post"                    
-                    >                             
-                      {post.userVoteDirection === 1 ? (
-                        <UpVote
-                        onClick = {() => this.clickVote(post.id,0)}
-                        /> 
-                        ):( 
-                        <UpVoteOutlined
-                        onClick = {() => this.clickVote(post.id,1)}
-                        />
-                        )}          
+                <CardHeader
+                  avatar={
+                  <Avatar aria-label="recipe"></Avatar>
+                  }
+                  action={
+                    <IconButton aria-label="settings">
+                      <MoreVertIcon />
                     </IconButton>
-                    <IconButton 
-                      aria-label="DisLiked Post"                    
-                    >
-                      {post.userVoteDirection === -1 ? (
-                        <DownVote 
-                        onClick = {() => this.clickVote(post.id,0)}
-                        />
-                        ):(
-                        <DownVoteOutlined 
-                        onClick = {() => this.clickVote(post.id,-1)}
-                        />
-                        )}
-                    </IconButton>   
-                  
-                {/* <IconButton 
-                  aria-label="DisLiked Post"
-                  onClick={() => this.handleOnClickReaction (post.id)}  
-                >
-                  <img src={Like}/>
-                </IconButton>                 
-                <IconButton 
-                  aria-label="Liked Post"
-                  onClick={() => this.handleOnClickReaction (post.id)}  
-                >
-                  <img src={UnLike}/>                              
-                </IconButton> */}
+                  }
+                  title={post.username}   
+                />
 
-                <Typography>{post.votesCount}</Typography> 
-                <Typography>Likes</Typography>
-                <IconButton 
-                  aria-label="Comments"
-                  onClick={() => this.handleOnClickPostDetails(post.id)} 
+                {/* <CardMedia
+                  className={useStyles.media}
                 >
-                  <img src={Comment} />                   
-                </IconButton>
-                <Typography>{post.commentsCount}</Typography>
-                <Typography>Comentários</Typography>
-              </CardActions>
-             
-            </Card>
-            </ThemeProvider>
-        ))}
-      </div>
+                <img src={Logo}/>
+                </CardMedia> */}
+
+                <CardContent 
+                onClick={ () => this.handleOnClickPostDetails(post.id)} 
+                >
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {post.text}
+                  </Typography>
+                </CardContent>
+
+                {/* <CardActions disableSpacing>               
+                      <IconButton 
+                        aria-label="DisLiked Post"                    
+                        onClickDownVote = {() => this.clickVote(post.id,-1)}
+                        DownVote={
+                          post.userVoteDirection < 0 ? (
+                            <DownVote />
+                          ) : (
+                            <DownVoteOutlined />
+                          )
+                        }
+                      >
+                        <UpVote/>                   
+                      </IconButton>                  
+                      <IconButton 
+                        aria-label="Liked Post"
+                        onClickUpVote = {() => this.clickVote(post.id,1)}
+                        upVote={
+                          post.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />
+                        }
+                      >
+                        <DownVote/>                                                     
+                      </IconButton> */}
+
+                    <CardActions disableSpacing> 
+                      <IconButton 
+                        aria-label="DisLiked Post"                    
+                      >                             
+                        {post.userVoteDirection === 1 ? (
+                          <UpVote
+                          onClick = {() => this.clickVote(post.id,0)}
+                          /> 
+                          ):( 
+                          <UpVoteOutlined
+                          onClick = {() => this.clickVote(post.id,1)}
+                          />
+                          )}          
+                      </IconButton>
+                      <IconButton 
+                        aria-label="DisLiked Post"                    
+                      >
+                        {post.userVoteDirection === -1 ? (
+                          <DownVote 
+                          onClick = {() => this.clickVote(post.id,0)}
+                          />
+                          ):(
+                          <DownVoteOutlined 
+                          onClick = {() => this.clickVote(post.id,-1)}
+                          />
+                          )}
+                      </IconButton>   
+                    
+                  {/* <IconButton 
+                    aria-label="DisLiked Post"
+                    onClick={() => this.handleOnClickReaction (post.id)}  
+                  >
+                    <img src={Like}/>
+                  </IconButton>                 
+                  <IconButton 
+                    aria-label="Liked Post"
+                    onClick={() => this.handleOnClickReaction (post.id)}  
+                  >
+                    <img src={UnLike}/>                              
+                  </IconButton> */}
+
+                  <Typography>{post.votesCount}</Typography> 
+                  <Typography>Likes</Typography>
+                  <IconButton 
+                    aria-label="Comments"
+                    onClick={() => this.handleOnClickPostDetails(post.id)} 
+                  >
+                    <img src={Comment} />                   
+                  </IconButton>
+                  <Typography>{post.commentsCount}</Typography>
+                  <Typography>Comentários</Typography>
+                </CardActions>
+              
+              </Card>
+              </ThemeProvider>
+          ))
+        }
+      </Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  allPosts: state.posts.allPosts,  
+  allPosts: state.posts.allPosts.posts,  
 });
 
 const mapDispatchToProps = dispatch => ({
