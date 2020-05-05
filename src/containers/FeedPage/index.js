@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { routes } from "../Router";
-import { createPost } from "../../actions/post";
+import { createPost, getAllPosts } from "../../actions/post";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
-import Post from "../../components/Post";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import LoadingRing from "../../components/LoadingRing";
+import PostList from "../PostList/PostList";
 
 class FeedPage extends Component {
   constructor(props) {
@@ -15,11 +16,16 @@ class FeedPage extends Component {
     this.state = {
       text: "",
       title: "",
+      searchInput: '',
     };
   }
 
   componentDidMount(){
     const token = window.localStorage.getItem("token")
+    if (!token) {
+      this.props.goToLoginPage();
+    }
+    this.props.getAllPosts()
   }
 
   
@@ -38,7 +44,8 @@ class FeedPage extends Component {
   }
 
   render() {
-    const { text } = this.state
+    const { text, searchInput } = this.state
+    const { allPosts } = this.props
 
     const theme = createMuiTheme({
       overrides: {
@@ -67,7 +74,6 @@ class FeedPage extends Component {
               multiline
               rowsMax={10}
             />
-
             </ThemeProvider>
             <Button 
             color="secondary" 
@@ -76,10 +82,16 @@ class FeedPage extends Component {
             >Postar
             </Button>
           </PostWrapper>
-
-          <PostList>
-            <Post/>
-          </PostList>
+          {allPosts ?
+            <PostListWrapper>
+              <PostList/>
+            </PostListWrapper>
+            :
+            <PostListWrapper>
+              <LoadingRing/>
+              <p>Aguarda um Cadim!</p>
+            </PostListWrapper>
+          }
 
       </FeedPageWrapper>
     );
@@ -88,15 +100,15 @@ class FeedPage extends Component {
 
 
   const mapStateToProps = state => ({
-    allPosts: state.allPosts
+    allPosts: state.posts.allPosts.posts,
   });
 
   const mapDispatchToProps = (dispatch) => {
     return{
+      createPost: (text, tittle) => dispatch(createPost(text, tittle)),
       goToLoginPage: () => dispatch(push(routes.root)),
       goToPostDetailsPage: () => dispatch(push(routes.postDetails)),
-      createPost: (text,title) => dispatch(createPost(text,title)),
-      
+      getAllPosts: () => dispatch(getAllPosts())
     }
   }
 
@@ -111,6 +123,7 @@ const FeedPageWrapper = styled.div`
   height: auto;
   min-height: 75vh;
 `
+
 const PostWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -121,7 +134,7 @@ const PostWrapper = styled.div`
   height: auto;
 `
 
-const PostList = styled.div`
+const PostListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

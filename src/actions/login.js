@@ -2,11 +2,15 @@ import axios from 'axios'
 import { push } from "connected-react-router";
 import { routes } from '../containers/Router';
 
-const token = localStorage.getItem('token')
-
 const baseUrl = "https://us-central1-future-apis.cloudfunctions.net/fourEddit"
 
+export const toRenderSignUp = (render) => ({
+    type: 'SET_RENDER_SIGN_UP',
+    payload: {
+        renderSignUp: render,
+    }
 
+})
 
 export const toSignUp = (email, password, username) => async (dispatch) => {
     const body =
@@ -25,7 +29,6 @@ export const toSignUp = (email, password, username) => async (dispatch) => {
             window.location.reload(true)
         } catch (error) {
             console.error(error)
-            console.log(body)
         }
     }
 
@@ -42,11 +45,15 @@ export const toLogin = (email, password) => async (dispatch) => {
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("username", response.data.user.username)
         localStorage.setItem("email", response.data.user.email)
+        localStorage.getItem('invalidLogin') ?
+            localStorage.removeItem('invalidLogin') :
+            window.location.reload(true)
         dispatch(push(routes.feedPage))
-        window.location.reload(true)
+
     } catch (error){
         console.error(error)
-        console.log(body)
+        window.localStorage.setItem('invalidLogin', error)
+        window.location.reload(true)
     }
 
 }

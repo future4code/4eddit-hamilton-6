@@ -1,12 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { routes } from "../Router";
-import {toLogin, toSignUp} from '../../actions/login'
+import {toLogin, toSignUp, toRenderSignUp} from '../../actions/login'
 import Logo from '../../img/logo.png'
+import Chip from '@material-ui/core/Chip';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
 
 class LoginPage extends Component {
   constructor(props) {
@@ -14,7 +17,7 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
-      username:""
+      username:"",
     };
   }
 
@@ -27,7 +30,6 @@ class LoginPage extends Component {
 
   toSignUp = event => {
     event.preventDefault()
-
     this.props.toSignUp(this.state.email, this.state.password, this.state.username)
     this.setState({email: "", password: "", username: ""})
   }
@@ -41,21 +43,54 @@ class LoginPage extends Component {
 
 
   render() {
-    const {email, password, username, goToFeedPage} = this.props
+    const {email, password, username, goToFeedPage, signUpRender, toRenderSignUp } = this.props
     const isLoged = localStorage.getItem("token") !== null
+
+    const theme = createMuiTheme({
+      overrides: {
+        MuiButton: {
+          root: {
+            color: '#ffff',
+            backgroundColor: '#E2AC9D',
+            '&:hover': {color: '#ED7F61'},
+          },
+        },
+      },
+    });
+    
+    const theme2 = createMuiTheme({
+      overrides: {
+        MuiButton: {
+          root: {
+            color: '#ED7F61',
+          },
+        },
+      },
+    });
 
     return (
       <LoginPageWrapper>
         {isLoged ?
         <LoginWrapper>
-        <Img src={Logo}/>
-        <Button 
-        onClick={goToFeedPage}
-        >Explore seu Feed!
-        </Button>
+          <Img src={Logo}/>
+          <Chip
+          label = {localStorage.getItem('username')}
+          color = "secondary"
+          variant= 'outlined'
+          />
+          <Button 
+          onClick={goToFeedPage}
+          color='primary'
+          >Explore seu Feed!
+          </Button>
         </LoginWrapper>
         :
         <LoginWrapper onSubmit={this.toLogin}>
+          {localStorage.getItem('invalidLogin') ?
+            <Invalid>E-mail ou senha inválida</Invalid>
+            :
+            ""
+          }
           <TextField
             onChange={this.handleFieldChange}
             name="email"
@@ -63,7 +98,6 @@ class LoginPage extends Component {
             label="E-mail"
             value={email}
             inputProps={{
-              pattern: '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/',
             }}
           />
           <TextField
@@ -72,7 +106,11 @@ class LoginPage extends Component {
             type="password"
             label="Senha"
             value={password}
+            inputProps={{
+              pattern: '^.{6,}$',
+            }}
           />
+          {signUpRender ? (
           <TextField
             onChange={this.handleFieldChange}
             name="username"
@@ -80,32 +118,57 @@ class LoginPage extends Component {
             label="Nome de Usuário"
             value={username}
           />
-          <Button
-          type="submit"
-          >Login
-          </Button>
-          <Button
-          onClick={this.toSignUp} 
-          >Cadastrar
-          </Button>
+          ) : (
+          ""
+          )}
+          {signUpRender ? (
+            <Fragment>
+              <ThemeProvider theme={theme2}>
+              <Button
+                onClick={this.toSignUp} 
+                >Cadastrar
+              </Button>
+              </ThemeProvider>
+              <ThemeProvider theme={theme}>
+                <Button
+                  onClick={toRenderSignUp} 
+                  >Voltar ao Login
+                </Button>
+              </ThemeProvider>
+            </Fragment>
+          ) : (
+            <ThemeProvider theme={theme2}>
+            <Button
+              type="submit"
+              >Login
+            </Button>
+            </ThemeProvider>
+          )}
         </LoginWrapper>
         }
+        {localStorage.removeItem('invalidLogin')}
       </LoginPageWrapper>
+      
     );
   }
 }
 
+const mapStateToProps = state => ({
+  signUpRender: state.posts.toRenderSignUp
+})
 
 const mapDispatchToProps = (dispatch) => {
   return{
     toSignUp: (email, password, username) => dispatch(toSignUp(email, password, username)),
     toLogin: (email, password) => dispatch(toLogin(email, password)),
+    toRenderSignUp: () => dispatch(toRenderSignUp(false)),
     goToFeedPage: () => dispatch(push(routes.feedPage))
-
   }
 }
 
-export default connect (null, mapDispatchToProps) (LoginPage);
+
+
+export default connect (mapStateToProps, mapDispatchToProps) (LoginPage);
 
 const LoginPageWrapper = styled.div`
   display: flex;
@@ -119,8 +182,8 @@ const LoginPageWrapper = styled.div`
 const LoginWrapper = styled.form`
   width: 100%;
   height: 100%;
-  gap: 10px;
   place-content: center center;
+  gap: 1vw;
   display: grid;
 `
 
@@ -131,4 +194,6 @@ const Img = styled.img`
   border-radius: 2vw;
   margin: 5vw 0 4vw 0;
 `
-
+const Invalid = styled.p`
+  color: red;
+`

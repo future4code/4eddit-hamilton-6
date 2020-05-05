@@ -18,7 +18,8 @@ export const getPostDetails = (postId) => async (dispatch) => {
         }
     }
     try{
-        const response = await axios.get(`${baseUrl}/posts/${postId}`, config)
+        const response = await axios.get(`${baseUrl}/posts/${postId}`, 
+        config)
         dispatch(setPostDetails(response.data.post))
     } catch (error) {
         console.error(error)
@@ -45,3 +46,23 @@ export const postComment = (comment, postId) => async (dispatch) => {
         window.alert("Ocorreu um erro ao criar o comentário.")
     }}
 
+    export const getPostVoteComment = ( postId, commentId, direction ) => async (dispatch) =>{
+        const body = {
+            'direction': direction
+        }
+        const config = {
+            headers: {
+                'auth': token
+            }
+        }
+        try{
+            await axios.put(`${baseUrl}/posts/${postId}/comment/${commentId}/vote`, 
+            body,
+            config)
+            console.log(postId, body)
+            dispatch(getPostDetails(postId));
+        } catch (error) {
+            console.error(error)   
+            console.log(body, config, postId, direction)     
+        }
+    }
