@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.js": "/static/js/main.4ec7d8df.chunk.js",
+    "main.js.map": "/static/js/main.4ec7d8df.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.d4c2ee40.js",
+    "runtime-main.js.map": "/static/js/runtime-main.d4c2ee40.js.map",
+    "static/js/2.862bf2ad.chunk.js": "/static/js/2.862bf2ad.chunk.js",
+    "static/js/2.862bf2ad.chunk.js.map": "/static/js/2.862bf2ad.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.28e4618054a8e994fd7397e93025d844.js": "/precache-manifest.28e4618054a8e994fd7397e93025d844.js",
+    "service-worker.js": "/service-worker.js",
+    "static/js/2.862bf2ad.chunk.js.LICENSE.txt": "/static/js/2.862bf2ad.chunk.js.LICENSE.txt",
+    "static/media/instagram.png": "/static/media/instagram.a31c5288.png",
+    "static/media/logo.png": "/static/media/logo.5d9248d2.png",
+    "static/media/whatsapp.png": "/static/media/whatsapp.934170ab.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d4c2ee40.js",
+    "static/js/2.862bf2ad.chunk.js",
+    "static/js/main.4ec7d8df.chunk.js"
+  ]
+}
