@@ -38,7 +38,7 @@ flex-direction: row;
 align-items: center;
 justify-content: center;
 width: 100%;
-height: 18vh;
+height: 19vh;
 min-height: 110px;
 background: #ED7F61;
 box-shadow: 0 -0.1vw 1vw;
@@ -47,7 +47,7 @@ box-shadow: 0 -0.1vw 1vw;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 260px;
+  height: 220px;
 }
 `
 

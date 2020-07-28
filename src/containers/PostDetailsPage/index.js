@@ -172,11 +172,11 @@ const GoBackContainer = styled.div`
 `
 
 const CommentWrapper = styled.div`
+  min-width: 400px;
   background-color: #F6B08F;
   width: 60%;
   height: auto;
   min-height: 68vh;
-  min-width: 250px;
   box-shadow: 0.1vw 0.2vw 1vw;
   border-radius: 2vw;
   padding: 2vw;
@@ -187,6 +187,7 @@ const CommentWrapper = styled.div`
 `
 
 const InputWrapper = styled.div`
+  min-width: 350px;
   background-color: white;
   box-shadow: 0.1vw 0.1vw 0.5vw;
   padding: 1vw 2vw;

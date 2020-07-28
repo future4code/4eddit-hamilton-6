@@ -74,7 +74,7 @@ class LoginPage extends Component {
         <LoginWrapper>
           <Img src={Logo}/>
           <Chip
-          label = {localStorage.getItem('username')}
+          label = {`Usuário: ${localStorage.getItem('username')}`}
           color = "secondary"
           variant= 'outlined'
           />

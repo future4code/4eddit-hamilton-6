@@ -28,7 +28,11 @@ class Header extends Component {
             border: 0,
             color: 'white',
             height: "45px",
+            width: "100px",
             padding: '0 30px',
+            fontFamily: "serif",
+            fontSize: "16px",
+            textTransform: "lowercase", 
             fontWeight: 900,
             '&:hover': {
               backgroundColor: "#F4A384",
@@ -105,6 +109,8 @@ const ImgContainer = styled.div`
 
 const Img = styled.img`
   width: 100px;
+  border-radius: 3px;
+  height: 45px;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
